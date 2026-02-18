@@ -1,3 +1,10 @@
+"""
+Database models for IntentBridge.
+
+Defines SQLAlchemy ORM models for sessions, messages, and intent results.
+These models persist the conversation history and AI-generated execution
+plans for future reference and analytics.
+"""
 from sqlalchemy import Column, Integer, String, JSON, DateTime, ForeignKey, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
