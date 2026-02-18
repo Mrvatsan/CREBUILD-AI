@@ -1,3 +1,10 @@
+"""
+Orchestrator module for IntentBridge.
+
+Manages the AI pipeline workflow by chaining the Intent Classifier,
+Ambiguity Resolver, and Execution Planner modules in sequence.
+Returns either clarification questions or a complete execution plan.
+"""
 from backend.modules.intent_classifier import IntentClassifier
 from backend.modules.ambiguity_resolver import AmbiguityResolver
 from backend.modules.execution_planner import ExecutionPlanner
