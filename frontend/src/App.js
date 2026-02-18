@@ -1,3 +1,15 @@
+/**
+ * IntentBridge - Main Application Component
+ *
+ * Provides the primary user interface with a dual-panel layout:
+ * - Left panel: Chat interface for submitting ideas and receiving AI feedback
+ * - Right panel: Execution roadmap viewer displaying generated plans
+ *
+ * Communicates with the FastAPI backend via the /api/v1/process endpoint.
+ * Handles session management, message history, and loading states.
+ *
+ * @module App
+ */
 import React, { useMemo, useState } from 'react';
 import axios from 'axios';
 
