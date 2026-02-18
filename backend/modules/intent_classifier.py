@@ -1,3 +1,10 @@
+"""
+Intent Classifier module for IntentBridge.
+
+Parses raw user text input to detect core goals, constraints, target
+platform, and confidence scores. Uses Jinja2 templates for prompt
+construction and returns structured JSON via the Gemini API.
+"""
 from backend.modules.base import AIModule
 from jinja2 import Template
 
