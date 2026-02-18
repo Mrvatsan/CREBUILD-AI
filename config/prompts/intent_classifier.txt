@@ -1,0 +1,12 @@
+Extract the following from the user input:
+- Intent Type: One of [Build, Improve, Research, Debug, Plan]
+- Core Goal: A short summary of what the user wants to achieve.
+- Target Users: Who is this for? (if mentioned)
+- Platform: [Web, Mobile, SaaS, API, AI System, Other]
+- Constraints: List of technical or business constraints.
+- Missing Critical Information: What else do we need to know to start building?
+- Confidence Score: 0.0 to 1.0
+
+Return ONLY a valid JSON object.
+
+User Input: {{user_input}}
