@@ -180,17 +180,40 @@ function App() {
             </div>
 
             <div className="flex-1 overflow-y-auto space-y-5 pr-2 scrollbar">
-            {messages.map((m, i) => (
-              <div key={i} className={`p-3 rounded-lg ${m.role === 'user' ? 'bg-blue-600 ml-8' : 'bg-gray-700 mr-8'}`}>
-                <p>{m.content}</p>
-                {m.questions && (
-                  <ul className="mt-2 list-disc list-inside text-blue-300">
-                    {m.questions.map((q, j) => <li key={j}>{q}</li>)}
-                  </ul>
-                )}
-              </div>
-            ))}
-            {loading && <div className="text-gray-500 italic">Bridge is processing...</div>}
+              {messages.length === 0 && !loading && (
+                <div className="rounded-2xl border border-dashed border-white/10 p-6 text-slate-400 text-sm">
+                  Drop the rough shape of the initiative. The bridge will probe for ambiguity and craft the execution spine.
+                </div>
+              )}
+              {messages.map((m, i) => (
+                <div key={`${m.role}-${i}`} className="relative flex gap-3">
+                  <div className={`mt-1 h-9 w-9 flex items-center justify-center rounded-full text-xs font-semibold tracking-widest ${m.role === 'user' ? 'bg-blue-500/20 text-blue-200 border border-blue-400/40' : 'bg-white/10 text-white border border-white/10'}`}>
+                    {m.role === 'user' ? 'YOU' : 'AI'}
+                  </div>
+                  <div className={`flex-1 rounded-3xl border p-5 text-sm leading-relaxed ${m.role === 'user' ? 'border-blue-500/30 bg-blue-500/10 shadow-blue-900/30' : 'border-white/10 bg-white/5 shadow-black/10'}`}>
+                    <p className="text-slate-100">{m.content}</p>
+                    {m.questions && (
+                      <div className="mt-4">
+                        <p className="text-[0.65rem] uppercase tracking-[0.5em] text-slate-400 mb-2">Clarify</p>
+                        <ul className="space-y-2 text-slate-100">
+                          {m.questions.map((q, j) => (
+                            <li key={`${q}-${j}`} className="flex gap-2">
+                              <span className="text-blue-300">•</span>
+                              <span>{q}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+              {loading && (
+                <div className="flex items-center gap-3 text-slate-400 text-sm">
+                  <span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" />
+                  Bridge is synthesizing your intent...
+                </div>
+              )}
           </div>
           <form onSubmit={handleSubmit} className="flex gap-2">
             <input 
