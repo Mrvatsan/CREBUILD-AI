@@ -1,14 +1,25 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  color-scheme: dark;
+}
+
 body {
   margin: 0;
+  font-family: 'Instrument Sans', 'Space Grotesk', sans-serif;
+  background-color: #020617;
+  background-image: radial-gradient(circle at 20% 20%, rgba(56,189,248,0.12), transparent 55%),
+    radial-gradient(circle at 80% 0%, rgba(99,102,241,0.25), transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(14,165,233,0.15), transparent 55%);
+  color: #f8fafc;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'Space Grotesk', 'Instrument Sans', Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
