@@ -1,4 +1,4 @@
-/**
+﻿/**
  * IntentBridge - Main Application Component
  *
  * Provides the primary user interface with a dual-panel layout:
@@ -14,6 +14,21 @@ import React, { useMemo, useState } from 'react';
 import axios from 'axios';
 
 const API_BASE = process.env.REACT_APP_API_BASE || 'http://localhost:8000/api/v1';
+
+const quickIdeas = [
+  {
+    title: 'Zero-touch onboarding',
+    prompt: 'Design an automated onboarding concierge for SaaS customers with proactive nudges and KPI tracking.'
+  },
+  {
+    title: 'AI release radar',
+    prompt: 'Create a weekly release radar that prioritizes engineering workstreams and surfaces risk signals.'
+  },
+  {
+    title: 'Growth experiment lab',
+    prompt: 'Outline a growth lab that runs multi-channel experiments with resource, timeline, and impact modeling.'
+  }
+];
 
 function App() {
   const [input, setInput] = useState('');
