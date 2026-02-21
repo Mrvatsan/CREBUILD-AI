@@ -273,7 +273,9 @@ function App() {
                   </article>
                 ))
               ) : (
-                <div className="text-gray-500 flex items-center justify-center h-full">Your plan will appear here...</div>
+                <div className="rounded-3xl border border-dashed border-white/10 p-6 text-slate-400 text-sm">
+                  Roadmaps unlock once the bridge has enough clarity to map Product Definition, Technical Architecture, and execution sequencing.
+                </div>
               )}
             </div>
           </section>
