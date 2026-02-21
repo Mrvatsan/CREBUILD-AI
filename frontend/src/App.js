@@ -77,6 +77,14 @@ function App() {
     }));
   }, [plan]);
 
+  const stringifyNode = (node) => {
+    if (node === null || node === undefined) return '—';
+    if (typeof node === 'string') return node;
+    if (typeof node === 'number') return node.toString();
+    if (Array.isArray(node)) return node.map((item) => stringifyNode(item)).join(' • ');
+    return JSON.stringify(node, null, 2);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
