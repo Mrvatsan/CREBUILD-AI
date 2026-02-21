@@ -151,6 +151,18 @@ function App() {
               ))}
             </div>
           </div>
+          <div className="flex flex-wrap gap-3 mt-6">
+            {quickIdeas.map(({ title, prompt }) => (
+              <button
+                key={title}
+                type="button"
+                onClick={() => setInput(prompt)}
+                className="quick-chip"
+              >
+                <span className="text-xs uppercase tracking-[0.4em] text-blue-200">{title}</span>
+              </button>
+            ))}
+          </div>
         </header>
 
       <main className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
