@@ -127,8 +127,12 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white font-sans p-8">
-      <header className="max-w-4xl mx-auto mb-12">
+    <div className="relative min-h-screen bg-slate-950 text-white overflow-hidden">
+      <div className="visual-gradient" />
+      <div className="visual-grid" />
+
+      <div className="relative z-10 px-6 py-10 md:px-10">
+        <header className="max-w-4xl mx-auto mb-12">
         <h1 className="text-4xl font-bold text-blue-400">IntentBridge</h1>
         <p className="text-gray-400">Convert vague ideas into structured execution plans.</p>
       </header>
@@ -180,6 +184,7 @@ function App() {
           )}
         </div>
       </main>
+      </div>
     </div>
   );
 }
