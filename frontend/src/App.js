@@ -141,6 +141,15 @@ function App() {
                 Translate raw intent into orchestrated execution paths. The bridge listens, clarifies, and returns a board-ready plan.
               </p>
             </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full md:w-auto">
+              {stats.map((stat) => (
+                <div key={stat.label} className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 shadow-lg shadow-blue-900/20">
+                  <p className="text-xs uppercase tracking-[0.35em] text-slate-400">{stat.label}</p>
+                  <p className="text-2xl font-semibold text-white mt-2">{stat.value}</p>
+                  <p className="text-xs text-slate-400 mt-1">{stat.meta}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </header>
 
