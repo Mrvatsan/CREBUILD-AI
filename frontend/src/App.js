@@ -26,11 +26,53 @@ function App() {
     return Math.min(48 + messages.length * 6, 72);
   }, [messages.length, loading, plan]);
 
+  const stringifyNode = (node) => {
+    if (node === null || node === undefined) return '—';
+    if (typeof node === 'string') return node;
+    if (typeof node === 'number') return node.toString();
+    if (Array.isArray(node)) return node.map((item) => stringifyNode(item)).join(' • ');
+    return JSON.stringify(node, null, 2);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
+
+    const userMessage = { role: 'user', content: input };
+    setMessages(prev => [...prev, userMessage]);
     setLoading(true);
     setInput('');
+
+    try {
+      const historyPayload = [...messages, userMessage];
+      const response = await apiClient.post('/process', {
+        session_id: sessionId,
+        user_input: input,
+        history: historyPayload
+      });
+
+      const result = response.data;
+      if (result.status === 'clarification_needed') {
+        const systemMessage = {
+          role: 'system',
+          content: result.analysis,
+          questions: result.questions
+        };
+        setMessages(prev => [...prev, systemMessage]);
+      } else if (result.status === 'plan_generated') {
+        const systemMessage = {
+          role: 'system',
+          content: 'I have generated a full execution plan for you.'
+        };
+        setMessages(prev => [...prev, systemMessage]);
+        setPlan(result.plan);
+      }
+    } catch (error) {
+      console.error('Error processing intent:', error);
+      setMessages(prev => [...prev, { role: 'system', content: 'Error connecting to the bridge.' }]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const Header = () => (
@@ -46,7 +88,7 @@ function App() {
         <h2 className="text-sm font-semibold text-gray-900">Conversation</h2>
         <div className="flex items-center gap-2">
           <span className="text-[10px] font-bold text-blue-500 uppercase tracking-widest">{clarityScore}% Clarity</span>
-          {loading && <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />}
+          {loading && <div className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" />}
         </div>
       </div>
       <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar">
@@ -55,18 +97,12 @@ function App() {
             <svg className="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
             </svg>
-            <p className="text-sm font-medium">Describe your initiative to begin the synthesis process.</p>
+            <p className="text-sm font-medium">Describe your initiative to begin.</p>
           </div>
         )}
         {messages.map((m, i) => (
-          <div
-            key={`${m.role}-${i}`}
-            className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'} animate-slide-up`}
-          >
-            <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${m.role === 'user'
-              ? 'bg-blue-50 text-blue-900 border border-blue-100'
-              : 'bg-white text-gray-800 border border-gray-100 shadow-sm'
-              }`}>
+          <div key={`${m.role}-${i}`} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'} animate-slide-up`}>
+            <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${m.role === 'user' ? 'bg-blue-50 text-blue-900 border border-blue-100' : 'bg-white text-gray-800 border border-gray-100 shadow-sm'}`}>
               <p>{m.content}</p>
             </div>
           </div>
@@ -74,9 +110,24 @@ function App() {
         {loading && (
           <div className="flex items-center gap-2 text-gray-400 text-[11px] py-1">
             <div className="h-1 w-1 rounded-full bg-blue-400 animate-pulse" />
-            <span className="italic font-medium">Synthesizing roadmap...</span>
+            <span className="italic">Synthesizing roadmap...</span>
           </div>
         )}
+      </div>
+      <div className="p-4 bg-gray-50 border-t border-gray-100">
+        <form onSubmit={handleSubmit} className="flex gap-2">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="flex-1 bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 transition-all"
+            placeholder="Describe your initiative..."
+            disabled={loading}
+          />
+          <button type="submit" disabled={loading || !input.trim()} className="bg-blue-600 text-white rounded-lg px-6 py-2.5 text-sm font-semibold hover:bg-blue-700 transition-all disabled:opacity-50">
+            {loading ? '...' : 'Send'}
+          </button>
+        </form>
       </div>
     </section>
   );
@@ -97,7 +148,41 @@ function App() {
         {plan && <div className="px-2 py-0.5 rounded bg-green-50 border border-green-100 text-[10px] font-bold text-green-600 uppercase tracking-widest">Live</div>}
       </div>
       <div className="flex-1 overflow-y-auto p-6 space-y-8 scrollbar">
-        {/* Roadmap content placeholder */}
+        {!plan && !loading && (
+          <div className="h-full flex flex-col items-center justify-center opacity-20 text-center px-10">
+            <svg className="w-12 h-12 mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <p className="text-sm font-medium">Roadmap will manifest here.</p>
+          </div>
+        )}
+        {plan && planSections.map(({ key, title, content }) => (
+          <article key={key} className="space-y-4 animate-slide-up">
+            <div className="flex items-center gap-4">
+              <div className="h-[1px] flex-1 bg-gray-100" />
+              <h3 className="text-[10px] font-bold text-blue-500 uppercase tracking-[0.2em] whitespace-nowrap">{title}</h3>
+              <div className="h-[1px] flex-1 bg-gray-100" />
+            </div>
+            <div className="text-[14px] text-gray-600 leading-relaxed">
+              {typeof content === 'object' && !Array.isArray(content) ? (
+                <div className="space-y-4">
+                  {Object.entries(content).map(([subKey, subValue]) => (
+                    <div key={subKey} className="group">
+                      <h4 className="text-[11px] font-bold text-gray-400 uppercase mb-1.5">{formatFriendlyTitle(subKey)}</h4>
+                      <div className="text-gray-900 bg-gray-50/50 p-3 rounded-lg border border-gray-100">
+                        {stringifyNode(subValue)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="bg-gray-50/80 p-4 rounded-xl border border-gray-100 text-gray-900">
+                  {stringifyNode(content)}
+                </div>
+              )}
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );
@@ -106,12 +191,10 @@ function App() {
     <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-8 overflow-x-hidden">
       <div className="max-w-[1200px] mx-auto relative">
         <Header />
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           <StreamPanel />
           <RoadmapPanel />
         </div>
-
         <footer className="mt-8 text-center text-gray-400 text-[11px] font-medium tracking-widest uppercase">
           IntentBridge Enterprise &copy; 2026
         </footer>
