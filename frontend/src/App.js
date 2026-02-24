@@ -50,7 +50,27 @@ function App() {
         </div>
       </div>
       <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar">
-        {/* Messages placeholder */}
+        {messages.length === 0 && !loading && (
+          <div className="h-full flex flex-col items-center justify-center opacity-30 text-center px-10">
+            <svg className="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+            </svg>
+            <p className="text-sm font-medium">Describe your initiative to begin the synthesis process.</p>
+          </div>
+        )}
+        {messages.map((m, i) => (
+          <div
+            key={`${m.role}-${i}`}
+            className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'} animate-slide-up`}
+          >
+            <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${m.role === 'user'
+              ? 'bg-blue-50 text-blue-900 border border-blue-100'
+              : 'bg-white text-gray-800 border border-gray-100 shadow-sm'
+              }`}>
+              <p>{m.content}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );
