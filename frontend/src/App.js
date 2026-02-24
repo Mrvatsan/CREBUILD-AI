@@ -71,6 +71,12 @@ function App() {
             </div>
           </div>
         ))}
+        {loading && (
+          <div className="flex items-center gap-2 text-gray-400 text-[11px] py-1">
+            <div className="h-1 w-1 rounded-full bg-blue-400 animate-pulse" />
+            <span className="italic font-medium">Synthesizing roadmap...</span>
+          </div>
+        )}
       </div>
     </section>
   );
