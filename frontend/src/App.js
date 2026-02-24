@@ -40,10 +40,28 @@ function App() {
     </header>
   );
 
+  const StreamPanel = () => (
+    <section className="panel-card flex flex-col h-[600px] overflow-hidden">
+      <div className="px-6 py-3.5 border-b border-gray-100 flex items-center justify-between bg-white/50 backdrop-blur-sm sticky top-0 z-10">
+        <h2 className="text-sm font-semibold text-gray-900">Conversation</h2>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] font-bold text-blue-500 uppercase tracking-widest">{clarityScore}% Clarity</span>
+          {loading && <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />}
+        </div>
+      </div>
+      <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar">
+        {/* Messages placeholder */}
+      </div>
+    </section>
+  );
+
   return (
     <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-8 overflow-x-hidden">
       <div className="max-w-[1200px] mx-auto">
         <Header />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          <StreamPanel />
+        </div>
       </div>
     </div>
   );
