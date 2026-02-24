@@ -1,5 +1,7 @@
 ﻿/**
  * IntentBridge - Main Application Component
+ * Version: 2.1.0-refresh
+ * Last Updated: 2026-02-24
  */
 import React, { useMemo, useState } from 'react';
 import axios from 'axios';
