@@ -33,10 +33,17 @@ function App() {
     setInput('');
   };
 
+  const Header = () => (
+    <header className="mb-6 text-center">
+      <h1 className="text-2xl font-bold text-gray-900 font-display">IntentBridge</h1>
+      <p className="mt-1 text-xs text-gray-500 font-medium uppercase tracking-wider">Synthesis Engine</p>
+    </header>
+  );
+
   return (
     <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-8 overflow-x-hidden">
       <div className="max-w-[1200px] mx-auto">
-        <h1 className="text-2xl font-bold">IntentBridge</h1>
+        <Header />
       </div>
     </div>
   );
