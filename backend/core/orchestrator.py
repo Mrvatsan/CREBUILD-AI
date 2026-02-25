@@ -51,7 +51,9 @@ class Orchestrator:
             result = {
                 "status": "plan_generated",
                 "intent": intent,
-                "plan": plan
+                "plan": plan,
+                "build": build,
+                "validation": validation
             }
             
         # TODO: Save result to Database
