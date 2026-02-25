@@ -102,8 +102,9 @@ class AIModule:
             }
         if name == "BuildEngine":
             return {
-                "files": {
-                    "README.md": "# Mock build output\nThis is a placeholder while running without an AI key."
-                }
+                "architecture": {"project_name": "MockApp", "tech_stack": {"frontend": "React", "backend": "FastAPI"}},
+                "backend": {"files": [{"path": "main.py", "content": "# Mock backend"}]},
+                "frontend": {"files": [{"path": "App.js", "content": "// Mock frontend"}]},
+                "database": {"sql_schema": "CREATE TABLE users (...);"}
             }
         return {"status": "mock", "detail": f"No mock defined for {name}"}
