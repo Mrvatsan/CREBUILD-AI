@@ -18,9 +18,17 @@
 }
 
 body {
-  margin: 0;
   @apply bg-[#F5F7FA] text-[#1E293B] antialiased;
   font-family: 'Inter', sans-serif;
+}
+
+/* Component Classes */
+.saas-card {
+  @apply bg-white border border-[#E2E8F0] rounded-xl shadow-sm transition-shadow duration-200;
+}
+
+.saas-card:hover {
+  @apply shadow-md;
 }
 
 .font-display {
