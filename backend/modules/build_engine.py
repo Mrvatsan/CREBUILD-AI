@@ -21,8 +21,13 @@ class BuildEngine(AIModule):
         backend_prompt = Template(self.load_prompt("build_backend.txt")).render(plan=json.dumps(plan))
         backend_code = await self._generate_structured_json(backend_prompt)
         
+        # 3. Frontend Generation
+        frontend_prompt = Template(self.load_prompt("build_frontend.txt")).render(plan=json.dumps(plan))
+        frontend_code = await self._generate_structured_json(frontend_prompt)
+        
         results = {
             "architecture": architecture,
-            "backend": backend_code
+            "backend": backend_code,
+            "frontend": frontend_code
         }
         return results
