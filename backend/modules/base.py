@@ -30,21 +30,25 @@ class AIModule:
         else:
             self.logger.warning(f"Running {self.__class__.__name__} in MOCK AI mode. Responses are deterministic stubs.")
 
-    async def _generate_structured_json(self, prompt: str) -> dict:
+    async def _generate_structured_json(self, prompt: str, retries: int = 2) -> dict:
         if self.mock_mode:
             return self._mock_response()
 
-        try:
-            response = self.model.generate_content(
-                prompt,
-                generation_config=genai.GenerationConfig(
-                    response_mime_type="application/json",
+        for attempt in range(retries + 1):
+            try:
+                response = self.model.generate_content(
+                    prompt,
+                    generation_config=genai.GenerationConfig(
+                        # response_mime_type="application/json", # Use if available
+                    )
                 )
-            )
-            return json.loads(response.text)
-        except Exception as e:
-            self.logger.error(f"Error generating content: {e}")
-            return {"error": str(e)}
+                return json.loads(response.text)
+            except Exception as e:
+                self.logger.error(f"Attempt {attempt + 1} failed: {e}")
+                if attempt == retries:
+                    return {"error": str(e), "status": "failed"}
+                continue
+        return {"error": "Unknown error", "status": "failed"}
 
     def load_prompt(self, filename: str) -> str:
         # Simplified for now, in production use shared folder
