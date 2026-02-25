@@ -104,3 +104,10 @@ h4 {
 .animate-slide-up {
   animation: slideUpFade 0.3s ease-out forwards;
 }
+
+/* Mobile Breakpoints */
+@media (max-width: 768px) {
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+}
