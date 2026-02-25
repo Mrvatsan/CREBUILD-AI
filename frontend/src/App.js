@@ -78,9 +78,22 @@ function App() {
   };
 
   const Header = () => (
-    <header className="mb-6 text-center">
-      <h1 className="text-2xl font-bold text-gray-900 font-display">IntentBridge</h1>
-      <p className="mt-1 text-xs text-gray-500 font-medium uppercase tracking-wider">Synthesis Engine</p>
+    <header className="flex items-center justify-between mb-8 pb-6 border-b border-[#E2E8F0]">
+      <div>
+        <h1 className="text-xl font-bold text-[#1E293B]">IntentBridge</h1>
+        <p className="text-xs text-[#64748B] font-medium uppercase tracking-wider">Project Synthesis Engine</p>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <div className="flex flex-col items-end">
+          <span className="text-[10px] font-bold text-[#64748B] uppercase tracking-tighter">Clarity Score</span>
+          <span className={`text-sm font-bold ${clarityScore > 80 ? 'text-green-500' : 'text-blue-500'}`}>{clarityScore}%</span>
+        </div>
+        <div className="h-8 w-[1px] bg-[#E2E8F0]" />
+        <div className="h-10 w-10 flex items-center justify-center rounded-full bg-white border border-[#E2E8F0] shadow-sm">
+          <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
+        </div>
+      </div>
     </header>
   );
 
