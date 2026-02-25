@@ -24,10 +24,11 @@ class AIModule:
         if not self.mock_mode:
             if not genai:
                 raise ImportError("google-generativeai package is required for live mode")
+            self.logger.info(f"Initializing AIModule with model: {model_name}")
             genai.configure(api_key=settings.GOOGLE_API_KEY)
             self.model = genai.GenerativeModel(model_name)
         else:
-            self.logger.warning("Running in MOCK AI mode. Responses are deterministic stubs.")
+            self.logger.warning(f"Running {self.__class__.__name__} in MOCK AI mode. Responses are deterministic stubs.")
 
     async def _generate_structured_json(self, prompt: str) -> dict:
         if self.mock_mode:
