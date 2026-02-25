@@ -98,49 +98,52 @@ function App() {
   );
 
   const StreamPanel = () => (
-    <section className="panel-card flex flex-col h-[600px] overflow-hidden">
-      <div className="px-6 py-3.5 border-b border-gray-100 flex items-center justify-between bg-white/50 backdrop-blur-sm sticky top-0 z-10">
-        <h2 className="text-sm font-semibold text-gray-900">Conversation</h2>
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] font-bold text-blue-500 uppercase tracking-widest">{clarityScore}% Clarity</span>
-          {loading && <div className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" />}
-        </div>
+    <section className="saas-card flex flex-col h-[650px] overflow-hidden">
+      <div className="px-6 py-4 border-b border-[#E2E8F0] flex items-center justify-between bg-white/80 backdrop-blur-md sticky top-0 z-20">
+        <h2 className="text-sm font-semibold">Project Conversation</h2>
+        {loading && <div className="h-4 w-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />}
       </div>
-      <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar">
-        {messages.length === 0 && !loading && (
-          <div className="h-full flex flex-col items-center justify-center opacity-30 text-center px-10">
-            <svg className="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-            </svg>
-            <p className="text-sm font-medium">Describe your initiative to begin.</p>
+
+      <div className="flex-1 overflow-y-auto p-6 space-y-5 scrollbar">
+        {messages.length === 0 && (
+          <div className="h-full flex flex-col items-center justify-center text-center px-10 border-2 border-dashed border-[#E2E8F0] rounded-2xl mx-2">
+            <p className="text-sm text-[#64748B] font-medium leading-relaxed">
+              Define your initiative to begin the synthesis process.
+            </p>
           </div>
         )}
+
         {messages.map((m, i) => (
-          <div key={`${m.role}-${i}`} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'} animate-slide-up`}>
-            <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${m.role === 'user' ? 'bg-blue-50 text-blue-900 border border-blue-100' : 'bg-white text-gray-800 border border-gray-100 shadow-sm'}`}>
-              <p>{m.content}</p>
+          <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+            <div className={`max-w-[85%] px-5 py-3.5 rounded-2xl text-sm leading-relaxed shadow-sm transition-all ${m.role === 'user'
+                ? 'bg-[#3B82F6] text-white rounded-tr-none'
+                : 'bg-white border border-[#E2E8F0] text-[#1E293B] rounded-tl-none'
+              }`}>
+              {m.content}
             </div>
           </div>
         ))}
+
         {loading && (
-          <div className="flex items-center gap-2 text-gray-400 text-[11px] py-1">
-            <div className="h-1 w-1 rounded-full bg-blue-400 animate-pulse" />
-            <span className="italic">Synthesizing roadmap...</span>
+          <div className="flex items-center gap-2 text-xs text-[#64748B] font-medium px-2 italic">
+            <div className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-bounce" />
+            Synthesizing intelligence...
           </div>
         )}
       </div>
-      <div className="p-4 bg-gray-50 border-t border-gray-100">
-        <form onSubmit={handleSubmit} className="flex gap-2">
+
+      <div className="p-5 bg-[#F8FAFC] border-t border-[#E2E8F0]">
+        <form onSubmit={handleSubmit} className="flex gap-3">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="flex-1 bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 transition-all"
-            placeholder="Describe your initiative..."
+            className="saas-input flex-1 bg-white"
+            placeholder="Type your intent..."
             disabled={loading}
           />
-          <button type="submit" disabled={loading || !input.trim()} className="bg-blue-600 text-white rounded-lg px-6 py-2.5 text-sm font-semibold hover:bg-blue-700 transition-all disabled:opacity-50">
-            {loading ? '...' : 'Send'}
+          <button type="submit" disabled={loading || !input.trim()} className="saas-button-primary">
+            Send
           </button>
         </form>
       </div>
