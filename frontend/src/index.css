@@ -29,6 +29,27 @@ h4 {
   @apply font-bold tracking-tight text-[#1E293B];
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full hover:bg-gray-400;
+}
+
+.saas-button-primary {
+  @apply bg-[#3B82F6] hover:bg-[#2563EB] text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm;
+}
+
+.saas-input {
+  @apply border border-[#E2E8F0] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent outline-none transition-all;
+}
+
 /* Component Classes */
 .saas-card {
   @apply bg-white border border-[#E2E8F0] rounded-xl shadow-sm transition-shadow duration-200;
