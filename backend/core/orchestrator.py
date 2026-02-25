@@ -41,6 +41,13 @@ class Orchestrator:
         else:
             # 3. Execution Planning
             plan = await self.planner.process(intent)
+            
+            # 4. Build Generation
+            build = await self.builder.process(plan)
+            
+            # 5. Validation
+            validation = await self.validator.process(build)
+            
             result = {
                 "status": "plan_generated",
                 "intent": intent,
