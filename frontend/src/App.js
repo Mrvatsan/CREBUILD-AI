@@ -116,8 +116,8 @@ function App() {
         {messages.map((m, i) => (
           <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[85%] px-5 py-3.5 rounded-2xl text-sm leading-relaxed shadow-sm transition-all ${m.role === 'user'
-                ? 'bg-[#3B82F6] text-white rounded-tr-none'
-                : 'bg-white border border-[#E2E8F0] text-[#1E293B] rounded-tl-none'
+              ? 'bg-[#3B82F6] text-white rounded-tr-none'
+              : 'bg-white border border-[#E2E8F0] text-[#1E293B] rounded-tl-none'
               }`}>
               {m.content}
             </div>
@@ -160,41 +160,43 @@ function App() {
   }, [plan]);
 
   const RoadmapPanel = () => (
-    <section className="panel-card flex flex-col h-[600px] overflow-hidden">
-      <div className="px-6 py-3.5 border-b border-gray-100 flex items-center justify-between sticky top-0 z-10 bg-white/50 backdrop-blur-sm">
-        <h2 className="text-sm font-semibold text-gray-900">Execution Roadmap</h2>
+    <section className="saas-card flex flex-col h-[650px] overflow-hidden">
+      <div className="px-6 py-4 border-b border-[#E2E8F0] flex items-center justify-between sticky top-0 z-20 bg-white/80 backdrop-blur-md">
+        <h2 className="text-sm font-semibold">Execution Roadmap</h2>
         {plan && <div className="px-2 py-0.5 rounded bg-green-50 border border-green-100 text-[10px] font-bold text-green-600 uppercase tracking-widest">Live</div>}
       </div>
+
       <div className="flex-1 overflow-y-auto p-6 space-y-8 scrollbar">
-        {!plan && !loading && (
-          <div className="h-full flex flex-col items-center justify-center opacity-20 text-center px-10">
-            <svg className="w-12 h-12 mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            <p className="text-sm font-medium">Roadmap will manifest here.</p>
+        {!plan && (
+          <div className="h-full flex flex-col items-center justify-center text-center px-10 border-2 border-dashed border-[#E2E8F0] rounded-2xl mx-2 opacity-40">
+            <p className="text-sm text-[#64748B] font-medium leading-relaxed">
+              Execution strategies will manifest here.
+            </p>
           </div>
         )}
+
         {plan && planSections.map(({ key, title, content }) => (
-          <article key={key} className="space-y-4 animate-slide-up">
+          <article key={key} className="space-y-4">
             <div className="flex items-center gap-4">
-              <div className="h-[1px] flex-1 bg-gray-100" />
+              <div className="h-[1px] flex-1 bg-[#E2E8F0]" />
               <h3 className="text-[10px] font-bold text-blue-500 uppercase tracking-[0.2em] whitespace-nowrap">{title}</h3>
-              <div className="h-[1px] flex-1 bg-gray-100" />
+              <div className="h-[1px] flex-1 bg-[#E2E8F0]" />
             </div>
-            <div className="text-[14px] text-gray-600 leading-relaxed">
-              {typeof content === 'object' && !Array.isArray(content) ? (
+
+            <div className="text-sm text-[#1E293B] leading-relaxed">
+              {typeof content === 'object' ? (
                 <div className="space-y-4">
                   {Object.entries(content).map(([subKey, subValue]) => (
                     <div key={subKey} className="group">
-                      <h4 className="text-[11px] font-bold text-gray-400 uppercase mb-1.5">{formatFriendlyTitle(subKey)}</h4>
-                      <div className="text-gray-900 bg-gray-50/50 p-3 rounded-lg border border-gray-100">
+                      <h4 className="text-[11px] font-bold text-[#64748B] uppercase mb-2">{formatFriendlyTitle(subKey)}</h4>
+                      <div className="bg-[#F8FAFC] p-4 rounded-xl border border-[#E2E8F0] group-hover:border-blue-200 transition-colors">
                         {stringifyNode(subValue)}
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="bg-gray-50/80 p-4 rounded-xl border border-gray-100 text-gray-900">
+                <div className="bg-[#F8FAFC] p-4 rounded-xl border border-[#E2E8F0]">
                   {stringifyNode(content)}
                 </div>
               )}
