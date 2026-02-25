@@ -12,5 +12,10 @@ import json
 class BuildEngine(AIModule):
     async def process(self, plan: dict) -> dict:
         self.logger.info("Starting multi-stage build generation")
-        results = {}
+        
+        # 1. Architecture Generation
+        arch_prompt = Template(self.load_prompt("build_arch.txt")).render(plan=json.dumps(plan))
+        architecture = await self._generate_structured_json(arch_prompt)
+        
+        results = {"architecture": architecture}
         return results
