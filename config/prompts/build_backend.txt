@@ -1,0 +1,23 @@
+Generate logic for the backend of the following project based on the execution plan.
+
+Plan:
+{{plan}}
+
+Output must be a valid JSON object with the following structure:
+{
+  "files": [
+    {
+      "path": "backend/main.py",
+      "content": "string"
+    },
+    {
+      "path": "backend/requirements.txt",
+      "content": "string"
+    }
+  ],
+  "api_specification": {
+    "endpoints": [
+      {"method": "GET|POST|...", "path": "string", "description": "string"}
+    ]
+  }
+}
