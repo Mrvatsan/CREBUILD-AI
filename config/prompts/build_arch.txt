@@ -1,0 +1,19 @@
+Review the following execution plan and generate a comprehensive folder structure and architectural overview for the project.
+
+Plan:
+{{plan}}
+
+Output must be a valid JSON object with the following structure:
+{
+  "project_name": "string",
+  "folder_structure": {
+    "root": [
+      {"name": "string", "type": "file|dir", "children": []}
+    ]
+  },
+  "tech_stack": {
+    "frontend": "string",
+    "backend": "string",
+    "database": "string"
+  }
+}
