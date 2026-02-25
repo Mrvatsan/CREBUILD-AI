@@ -19,6 +19,8 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [plan, setPlan] = useState(null);
+  const [build, setBuild] = useState(null);
+  const [activeTab, setActiveTab] = useState('arch');
   const [sessionId] = useState(`session_${Math.random().toString(36).substr(2, 9)}`);
   const apiClient = useMemo(() => axios.create({ baseURL: API_BASE }), []);
 
