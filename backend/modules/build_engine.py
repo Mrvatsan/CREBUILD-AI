@@ -17,5 +17,12 @@ class BuildEngine(AIModule):
         arch_prompt = Template(self.load_prompt("build_arch.txt")).render(plan=json.dumps(plan))
         architecture = await self._generate_structured_json(arch_prompt)
         
-        results = {"architecture": architecture}
+        # 2. Backend Generation
+        backend_prompt = Template(self.load_prompt("build_backend.txt")).render(plan=json.dumps(plan))
+        backend_code = await self._generate_structured_json(backend_prompt)
+        
+        results = {
+            "architecture": architecture,
+            "backend": backend_code
+        }
         return results
