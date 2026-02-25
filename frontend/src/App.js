@@ -190,15 +190,17 @@ function App() {
   );
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-8 overflow-x-hidden">
-      <div className="max-w-[1200px] mx-auto relative">
+    <div className="min-h-screen bg-[#F5F7FA] font-['Inter',sans-serif] text-[#1E293B]">
+      <div className="max-w-[1200px] mx-auto px-4 py-8">
         <Header />
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+        <main className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           <StreamPanel />
           <RoadmapPanel />
-        </div>
-        <footer className="mt-8 text-center text-gray-400 text-[11px] font-medium tracking-widest uppercase">
-          IntentBridge Enterprise &copy; 2026
+        </main>
+
+        <footer className="mt-12 text-center text-xs text-[#64748B] font-medium tracking-widest uppercase pb-8">
+          IntentBridge Enterprise &copy; 2026 • Intelligent Synthesis
         </footer>
       </div>
     </div>
