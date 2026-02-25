@@ -25,9 +25,22 @@ class BuildEngine(AIModule):
         frontend_prompt = Template(self.load_prompt("build_frontend.txt")).render(plan=json.dumps(plan))
         frontend_code = await self._generate_structured_json(frontend_prompt)
         
-        results = {
+        # 4. Database Generation
+        db_prompt = Template(self.load_prompt("build_db.txt")).render(plan=json.dumps(plan))
+        database_schema = await self._generate_structured_json(db_prompt)
+        
+        return {
             "architecture": architecture,
             "backend": backend_code,
-            "frontend": frontend_code
+            "frontend": frontend_code,
+            "database": database_schema
         }
-        return results
+
+    def _mock_response(self) -> dict:
+        # Override mock for multi-stage structure
+        return {
+            "architecture": {"project_name": "MockApp", "tech_stack": {"frontend": "React", "backend": "FastAPI"}},
+            "backend": {"files": [{"path": "main.py", "content": "# Mock backend"}]},
+            "frontend": {"files": [{"path": "App.js", "content": "// Mock frontend"}]},
+            "database": {"sql_schema": "CREATE TABLE users (...);"}
+        }
