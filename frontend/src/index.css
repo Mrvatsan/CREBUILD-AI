@@ -22,6 +22,13 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+h1,
+h2,
+h3,
+h4 {
+  @apply font-bold tracking-tight text-[#1E293B];
+}
+
 /* Component Classes */
 .saas-card {
   @apply bg-white border border-[#E2E8F0] rounded-xl shadow-sm transition-shadow duration-200;
