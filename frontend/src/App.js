@@ -3,10 +3,7 @@
  * Version: 2.1.0-refresh
  * Last Updated: 2026-02-24
  */
-import React, { useMemo, useState } from 'react';
-import axios from 'axios';
-
-const API_BASE = process.env.REACT_APP_API_BASE || 'http://localhost:8000/api/v1';
+import { Send, CheckCircle2, Layout, Activity, ChevronRight, Terminal } from 'lucide-react';
 
 const formatFriendlyTitle = (key) => key
   .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
