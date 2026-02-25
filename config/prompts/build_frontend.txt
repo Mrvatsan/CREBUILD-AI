@@ -1,0 +1,15 @@
+Generate React frontend code for the following project based on the execution plan. Use Tailwind CSS for styling.
+
+Plan:
+{{plan}}
+
+Output must be a valid JSON object with the following structure:
+{
+  "files": [
+    {
+      "path": "frontend/src/App.js",
+      "content": "string"
+    }
+  ],
+  "style_definitions": "string"
+}
