@@ -1,0 +1,16 @@
+Validate the following build output against the requirements.
+
+Output:
+{{output}}
+
+Verify:
+1. Valid JSON structure.
+2. All required files are present.
+3. Code is syntactically correct (best effort).
+
+Return valid JSON:
+{
+  "is_valid": boolean,
+  "errors": ["string"],
+  "improvements": ["string"]
+}
