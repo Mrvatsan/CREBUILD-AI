@@ -107,4 +107,10 @@ class AIModule:
                 "frontend": {"files": [{"path": "App.js", "content": "// Mock frontend"}]},
                 "database": {"sql_schema": "CREATE TABLE users (...);"}
             }
+        if name == "Validator":
+            return {
+                "is_valid": True,
+                "errors": [],
+                "improvements": ["Mock mode: verification skipped."]
+            }
         return {"status": "mock", "detail": f"No mock defined for {name}"}
