@@ -1,0 +1,10 @@
+Generate the database schema for the following project based on the execution plan. Target PostgreSQL.
+
+Plan:
+{{plan}}
+
+Output must be a valid JSON object with the following structure:
+{
+  "sql_schema": "string",
+  "erd_description": "string"
+}
