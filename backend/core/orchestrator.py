@@ -22,6 +22,9 @@ class Orchestrator:
         self.logger = logging.getLogger("Orchestrator")
 
     async def execute_workflow(self, session_id: str, user_input: str, history: list = None) -> dict:
+        """
+        Orchestrates the full pipeline from intent to validated build output.
+        """
         self.logger.info(f"Executing workflow for session {session_id}")
         
         # 1. Intent Classification
