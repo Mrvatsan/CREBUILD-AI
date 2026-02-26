@@ -379,10 +379,15 @@ function App() {
 
         </main>
 
-        <footer className="mt-12 text-center text-xs text-[#64748B] font-medium tracking-widest uppercase pb-8">
-          IntentBridge Enterprise &copy; 2026 • Intelligent Synthesis
-        </footer>
       </div>
+
+      {/* ── FOOTER ── */}
+      <footer className="border-t border-slate-100 bg-white/50">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between text-[11px] text-slate-400">
+          <span>&copy; 2026 IntentBridge</span>
+          <span className="hidden sm:inline">Powered by AI · Built with purpose</span>
+        </div>
+      </footer>
     </div>
   );
 }

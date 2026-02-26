@@ -1,104 +1,72 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: light;
-  --bg-main: #F5F7FA;
-  --card-bg: #FFFFFF;
-  --border-subtle: #E2E8F0;
-  --text-primary: #1E293B;
-  --text-secondary: #64748B;
-  --accent-blue: #3B82F6;
-  --accent-blue-hover: #2563EB;
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+/* ─── Base ─── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  @apply bg-[#F5F7FA] text-[#1E293B] antialiased;
-  font-family: 'Inter', sans-serif;
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #eff6ff 100%);
+  color: #1e293b;
+  min-height: 100vh;
 }
 
-h1,
-h2,
-h3,
-h4 {
-  @apply font-bold tracking-tight text-[#1E293B];
+/* ─── Typography ─── */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #0f172a;
 }
 
-/* Custom Scrollbar */
+/* ─── Scrollbar ─── */
 ::-webkit-scrollbar {
   width: 6px;
 }
-
 ::-webkit-scrollbar-track {
-  @apply bg-transparent;
+  background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 rounded-full hover:bg-gray-400;
+  background: #e2e8f0;
+  border-radius: 999px;
 }
-
-.saas-button-primary {
-  @apply bg-[#3B82F6] hover:bg-[#2563EB] text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm;
-}
-
-.saas-input {
-  @apply border border-[#E2E8F0] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent outline-none transition-all;
-}
-
-.code-block {
-  @apply font-mono text-xs leading-relaxed bg-[#1E293B] text-gray-300 p-4 rounded-lg overflow-x-auto;
-}
-
-/* Component Classes */
-.saas-card {
-  @apply bg-white border border-[#E2E8F0] rounded-xl shadow-sm transition-shadow duration-200;
-}
-
-.saas-card:hover {
-  @apply shadow-md;
-}
-
-.font-display {
-  font-family: 'Inter', sans-serif;
-  letter-spacing: -0.025em;
-}
-
-.panel-card {
-  background: #FFFFFF;
-  border: 1px solid #E5E7EB;
-  border-radius: 1rem;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
 }
 
 .scrollbar::-webkit-scrollbar {
-  width: 5px;
+  width: 4px;
 }
-
 .scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
-
 .scrollbar::-webkit-scrollbar-thumb {
-  background: #E5E7EB;
-  border-radius: 10px;
+  background: #e2e8f0;
+  border-radius: 999px;
 }
-
 .scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #D1D5DB;
+  background: #cbd5e1;
 }
 
-/* Animations */
+/* ─── Animations ─── */
 @keyframes slideUpFade {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -106,17 +74,18 @@ h4 {
 }
 
 .animate-slide-up {
-  animation: slideUpFade 0.3s ease-out forwards;
+  animation: slideUpFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.roadmap-milestone:hover {
-  transform: translateX(4px);
-  @apply border-blue-200;
+/* ─── Focus ring utility ─── */
+input:focus-visible,
+button:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
 }
 
-/* Mobile Breakpoints */
-@media (max-width: 768px) {
-  .grid-cols-2 {
-    grid-template-columns: 1fr;
-  }
+/* ─── Selection ─── */
+::selection {
+  background: #bfdbfe;
+  color: #1e3a5f;
 }
