@@ -16,27 +16,45 @@ const formatFriendlyTitle = (key) =>
     .replace(/\s+/g, ' ')
     .replace(/^\w/, (c) => c.toUpperCase());
 
+/* ─────────────────────────── APP ─────────────────────────── */
 function App() {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [plan, setPlan] = useState(null);
-  const [build, setBuild] = useState(null);
-  const [activeTab, setActiveTab] = useState('arch');
-  const [sessionId] = useState(`session_${Math.random().toString(36).substr(2, 9)}`);
+  const [sessionId] = useState(() => `session_${Math.random().toString(36).substr(2, 9)}`);
+  const messagesEndRef = useRef(null);
+  const inputRef = useRef(null);
+
   const apiClient = useMemo(() => axios.create({ baseURL: API_BASE }), []);
 
+  const scrollToBottom = useCallback(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, []);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, loading, scrollToBottom]);
+
+  /* ── Clarity score ── */
   const clarityScore = useMemo(() => {
-    if (plan) return 92;
+    if (plan) return 95;
     if (loading) return 67;
-    return Math.min(48 + messages.length * 6, 72);
+    return Math.min(40 + messages.length * 8, 72);
   }, [messages.length, loading, plan]);
 
+  const clarityColor =
+    clarityScore >= 80 ? 'text-emerald-500' : clarityScore >= 50 ? 'text-amber-500' : 'text-rose-400';
+  const clarityBg =
+    clarityScore >= 80 ? 'bg-emerald-500' : clarityScore >= 50 ? 'bg-amber-500' : 'bg-rose-400';
+
+  /* ── Helpers ── */
   const stringifyNode = (node) => {
     if (node === null || node === undefined) return '—';
     if (typeof node === 'string') return node;
     if (typeof node === 'number') return node.toString();
-    if (Array.isArray(node)) return node.map((item) => stringifyNode(item)).join(' • ');
+    if (Array.isArray(node))
+      return node.map((item) => stringifyNode(item)).join(' · ');
     return JSON.stringify(node, null, 2);
   };
 
