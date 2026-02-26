@@ -1,15 +1,20 @@
 ﻿/**
- * IntentBridge - Main Application Component
- * Version: 2.1.0-refresh
- * Last Updated: 2026-02-24
+ * IntentBridge — Main Application Component
+ * Version: 3.0.0
+ * Last Updated: 2026-02-26
  */
-import { Send, CheckCircle2, Layout, Activity, ChevronRight, Terminal } from 'lucide-react';
+import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import axios from 'axios';
+import { Send, Sparkles, MessageSquare, Map, ChevronDown, Zap, Layers, Bot, User } from 'lucide-react';
 
-const formatFriendlyTitle = (key) => key
-  .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
-  .replace(/_/g, ' ')
-  .replace(/\s+/g, ' ')
-  .replace(/^\w/, (c) => c.toUpperCase());
+const API_BASE = process.env.REACT_APP_API_BASE || 'http://localhost:8000/api/v1';
+
+const formatFriendlyTitle = (key) =>
+  key
+    .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+    .replace(/_/g, ' ')
+    .replace(/\s+/g, ' ')
+    .replace(/^\w/, (c) => c.toUpperCase());
 
 function App() {
   const [input, setInput] = useState('');
