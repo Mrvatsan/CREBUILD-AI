@@ -214,6 +214,67 @@ function App() {
                 </div>
               )}
 
+              {messages.map((m, i) => (
+                <div
+                  key={i}
+                  className={`flex items-end gap-2.5 animate-slide-up ${m.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
+                >
+                  {/* Avatar */}
+                  <div
+                    className={`h-7 w-7 rounded-full flex-shrink-0 flex items-center justify-center ${
+                      m.role === 'user'
+                        ? 'bg-blue-600 shadow-md shadow-blue-500/25'
+                        : 'bg-slate-100 border border-slate-200'
+                    }`}
+                  >
+                    {m.role === 'user' ? (
+                      <User className="h-3.5 w-3.5 text-white" />
+                    ) : (
+                      <Bot className="h-3.5 w-3.5 text-slate-500" />
+                    )}
+                  </div>
+
+                  {/* Bubble */}
+                  <div
+                    className={`max-w-[80%] px-4 py-3 text-[13px] leading-relaxed ${
+                      m.role === 'user'
+                        ? 'bg-blue-600 text-white rounded-2xl rounded-br-md shadow-md shadow-blue-500/15'
+                        : 'bg-slate-50 border border-slate-200/80 text-slate-700 rounded-2xl rounded-bl-md'
+                    }`}
+                  >
+                    <p>{m.content}</p>
+                    {m.questions && m.questions.length > 0 && (
+                      <ul className="mt-3 space-y-1.5 border-t border-slate-200/50 pt-3">
+                        {m.questions.map((q, qi) => (
+                          <li
+                            key={qi}
+                            className="flex items-start gap-2 text-[12px] text-slate-600 bg-white/60 px-3 py-2 rounded-lg"
+                          >
+                            <ChevronDown className="h-3.5 w-3.5 text-blue-400 mt-0.5 flex-shrink-0" />
+                            {q}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </div>
+              ))}
+
+              {loading && (
+                <div className="flex items-end gap-2.5">
+                  <div className="h-7 w-7 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center flex-shrink-0">
+                    <Bot className="h-3.5 w-3.5 text-slate-500" />
+                  </div>
+                  <div className="bg-slate-50 border border-slate-200/80 rounded-2xl rounded-bl-md px-5 py-3.5">
+                    <div className="flex items-center gap-1.5">
+                      <div className="h-2 w-2 rounded-full bg-blue-400 animate-bounce [animation-delay:0ms]" />
+                      <div className="h-2 w-2 rounded-full bg-blue-400 animate-bounce [animation-delay:150ms]" />
+                      <div className="h-2 w-2 rounded-full bg-blue-400 animate-bounce [animation-delay:300ms]" />
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div ref={messagesEndRef} />
             </div>
 
