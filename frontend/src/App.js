@@ -115,14 +115,58 @@ function App() {
     }));
   }, [plan]);
 
+  /* ================================================================
+     RENDER
+     ================================================================ */
   return (
-    <div className="min-h-screen bg-[#F5F7FA] font-['Inter',sans-serif] text-[#1E293B]">
-      <div className="max-w-[1200px] mx-auto px-4 py-8">
-        <Header />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 font-['Inter',system-ui,sans-serif] text-slate-800">
+      {/* ── NAVBAR ── */}
+      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/60">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+            <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+              <Zap className="h-5 w-5 text-white" />
+            </div>
+            <div>
+              <h1 className="text-lg font-bold tracking-tight bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+                IntentBridge
+              </h1>
+              <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.15em] -mt-0.5">
+                AI Project Synthesizer
+              </p>
+            </div>
+          </div>
 
-        <main className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          <StreamPanel />
-          <RoadmapPanel />
+          {/* Status bar */}
+          <div className="flex items-center gap-5">
+            {/* Clarity meter */}
+            <div className="hidden sm:flex items-center gap-3 bg-slate-50 rounded-full px-4 py-2 border border-slate-200/60">
+              <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">Clarity</span>
+              <div className="w-24 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                <div
+                  className={`h-full rounded-full transition-all duration-700 ease-out ${clarityBg}`}
+                  style={{ width: `${clarityScore}%` }}
+                />
+              </div>
+              <span className={`text-sm font-bold tabular-nums ${clarityColor}`}>{clarityScore}%</span>
+            </div>
+
+            {/* Live indicator */}
+            <div className="flex items-center gap-2 text-xs font-medium text-slate-500">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+              </span>
+              Online
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* ── MAIN CONTENT ── */}
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        <main className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         </main>
 
         <footer className="mt-12 text-center text-xs text-[#64748B] font-medium tracking-widest uppercase pb-8">
