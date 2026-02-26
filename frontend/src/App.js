@@ -167,6 +167,79 @@ function App() {
       {/* ── MAIN CONTENT ── */}
       <div className="max-w-7xl mx-auto px-6 py-8">
         <main className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+          {/* ════════════════ CHAT PANEL ════════════════ */}
+          <section className="lg:col-span-5 bg-white rounded-2xl border border-slate-200/80 shadow-sm shadow-slate-200/50 flex flex-col h-[calc(100vh-160px)] overflow-hidden">
+            {/* Chat header */}
+            <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="h-8 w-8 rounded-lg bg-blue-50 flex items-center justify-center">
+                  <MessageSquare className="h-4 w-4 text-blue-600" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-semibold text-slate-800">Conversation</h2>
+                  <p className="text-[11px] text-slate-400">Describe your project idea</p>
+                </div>
+              </div>
+              {loading && (
+                <div className="flex items-center gap-2 text-xs font-medium text-blue-500 bg-blue-50 px-3 py-1.5 rounded-full">
+                  <div className="h-3.5 w-3.5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                  Processing
+                </div>
+              )}
+            </div>
+
+            {/* Messages area */}
+            <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4 scrollbar">
+              {messages.length === 0 && (
+                <div className="h-full flex flex-col items-center justify-center text-center px-8">
+                  <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center mb-5 border border-blue-100">
+                    <Sparkles className="h-7 w-7 text-blue-500" />
+                  </div>
+                  <h3 className="text-base font-semibold text-slate-700 mb-2">Start a conversation</h3>
+                  <p className="text-sm text-slate-400 leading-relaxed max-w-xs">
+                    Tell me about the project you want to build — I'll help you create a complete execution plan.
+                  </p>
+                  <div className="mt-6 flex flex-wrap justify-center gap-2">
+                    {['Build a SaaS app', 'Create an API', 'Design a dashboard'].map((hint) => (
+                      <button
+                        key={hint}
+                        onClick={() => setInput(hint)}
+                        className="text-xs font-medium text-slate-500 bg-slate-50 hover:bg-blue-50 hover:text-blue-600 px-3.5 py-2 rounded-lg border border-slate-200 hover:border-blue-200 transition-all duration-200"
+                      >
+                        {hint}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Input bar */}
+            <div className="p-4 bg-slate-50/80 border-t border-slate-100">
+              <form onSubmit={handleSubmit} className="flex items-center gap-3">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  className="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-all"
+                  placeholder="Describe your project idea..."
+                  disabled={loading}
+                />
+                <button
+                  type="submit"
+                  disabled={loading || !input.trim()}
+                  className="h-11 w-11 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:bg-slate-200 disabled:cursor-not-allowed text-white flex items-center justify-center transition-all duration-200 shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 active:scale-95"
+                >
+                  <Send className="h-4.5 w-4.5" />
+                </button>
+              </form>
+            </div>
+          </section>
+
         </main>
 
         <footer className="mt-12 text-center text-xs text-[#64748B] font-medium tracking-widest uppercase pb-8">
