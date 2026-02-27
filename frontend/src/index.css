@@ -116,6 +116,7 @@ button:focus-visible {
 
 /* ─── Selection ─── */
 ::selection {
-  background: #bfdbfe;
-  color: #1e3a5f;
+  background: rgba(20, 184, 166, 0.3);
+  /* aurora-500 with opacity */
+  color: #fff;
 }
