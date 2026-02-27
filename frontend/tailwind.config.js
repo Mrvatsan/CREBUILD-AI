@@ -6,6 +6,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        midnight: {
+          900: '#0B0D17',
+          800: '#15192B',
+          700: '#20263D',
+        },
         aurora: {
           50: '#f0fdfa',
           100: '#ccfbf1',
