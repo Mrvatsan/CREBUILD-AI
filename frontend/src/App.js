@@ -346,80 +346,114 @@ function App() {
             </motion.section>
 
             {/* ════════════════ ROADMAP PANEL ════════════════ */}
-            <section className="lg:col-span-7 bg-white rounded-2xl border border-slate-200/80 shadow-sm shadow-slate-200/50 flex flex-col h-[calc(100vh-160px)] overflow-hidden">
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="lg:col-span-7 glass-panel rounded-2xl flex flex-col h-full overflow-hidden"
+            >
               {/* Roadmap header */}
-              <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <div className="h-8 w-8 rounded-lg bg-indigo-50 flex items-center justify-center">
-                    <Map className="h-4 w-4 text-indigo-600" />
+              <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+                <div className="flex items-center gap-3">
+                  <div className="h-9 w-9 rounded-xl bg-aurora-500/10 border border-aurora-500/20 flex items-center justify-center">
+                    <Map className="h-4.5 w-4.5 text-aurora-400" />
                   </div>
                   <div>
-                    <h2 className="text-sm font-semibold text-slate-800">Execution Roadmap</h2>
-                    <p className="text-[11px] text-slate-400">Generated plan &amp; architecture</p>
+                    <h2 className="text-[15px] font-bold text-slate-200">Execution Matrix</h2>
+                    <p className="text-[11px] text-slate-500 uppercase tracking-wider mt-0.5">Architecture & Plan</p>
                   </div>
                 </div>
-                {plan && (
-                  <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                    Plan Ready
-                  </span>
-                )}
+                <AnimatePresence>
+                  {plan && (
+                    <motion.span
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="inline-flex items-center gap-2 text-[11px] font-bold text-aurora-300 bg-aurora-900/40 px-3 py-1.5 rounded-full border border-aurora-500/30 shadow-[0_0_10px_rgba(20,184,166,0.2)]"
+                    >
+                      <span className="h-1.5 w-1.5 rounded-full bg-aurora-400 animate-pulse" />
+                      Plan Synthesized
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* Roadmap body */}
-              <div className="flex-1 overflow-y-auto px-5 py-6 space-y-6 scrollbar">
-                {!plan && (
+              <div className="flex-1 overflow-y-auto px-6 py-6 scrollbar">
+                {!plan ? (
                   <div className="h-full flex flex-col items-center justify-center text-center px-8">
-                    <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-indigo-50 to-purple-50 flex items-center justify-center mb-5 border border-indigo-100">
-                      <Layers className="h-7 w-7 text-indigo-400" />
+                    <div className="relative group mb-6">
+                      <div className="absolute -inset-4 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-full blur-lg opacity-50 group-hover:opacity-100 transition duration-1000 animate-pulse-slow"></div>
+                      <div className="relative h-20 w-20 rounded-2xl bg-midnight-800 border border-white/10 flex items-center justify-center backdrop-blur-sm">
+                        <Layers className="h-8 w-8 text-indigo-400/50 group-hover:text-indigo-400 transition-colors duration-500" />
+                      </div>
                     </div>
-                    <h3 className="text-base font-semibold text-slate-700 mb-2">No plan yet</h3>
-                    <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
-                      Once you describe your project and answer any clarifying questions, your full execution roadmap will appear here.
+                    <h3 className="text-lg font-bold text-slate-300 mb-2">Awaiting Parameters</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed max-w-sm">
+                      Provide project specifications in the session terminal. A comprehensive technical roadmap will be rendered here.
                     </p>
                   </div>
-                )}
-
-                {plan &&
-                  planSections.map(({ key, title, content }, index) => (
-                    <article key={key} className="animate-slide-up" style={{ animationDelay: `${index * 60}ms` }}>
-                      {/* Section header */}
-                      <div className="flex items-center gap-3 mb-4">
-                        <span className="inline-flex items-center justify-center h-6 w-6 rounded-md bg-blue-50 text-blue-600 text-[11px] font-bold border border-blue-100">
-                          {index + 1}
-                        </span>
-                        <h3 className="text-[13px] font-semibold text-slate-700">{title}</h3>
-                        <div className="flex-1 h-px bg-slate-100" />
-                      </div>
-
-                      {/* Section content */}
-                      <div className="ml-9 text-[13px] text-slate-600 leading-relaxed">
-                        {typeof content === 'object' && content !== null ? (
-                          <div className="space-y-3">
-                            {Object.entries(content).map(([subKey, subValue]) => (
-                              <div
-                                key={subKey}
-                                className="bg-slate-50 p-4 rounded-xl border border-slate-100 hover:border-blue-200 transition-colors duration-200"
-                              >
-                                <h4 className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
-                                  {formatFriendlyTitle(subKey)}
-                                </h4>
-                                <div className="text-slate-700 whitespace-pre-wrap">
-                                  {stringifyNode(subValue)}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <div className="text-slate-700 whitespace-pre-wrap">{stringifyNode(content)}</div>
-                          </div>
+                ) : (
+                  <div className="space-y-8">
+                    {planSections.map(({ key, title, content }, index) => (
+                      <motion.article
+                        key={key}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1, duration: 0.5, type: 'spring' }}
+                        className="relative"
+                      >
+                        {/* Section line connector (except last) */}
+                        {index !== planSections.length - 1 && (
+                          <div className="absolute left-[15px] top-[30px] bottom-[-40px] w-px bg-gradient-to-b from-aurora-500/50 to-transparent z-0" />
                         )}
-                      </div>
-                    </article>
-                  ))}
+
+                        {/* Section header */}
+                        <div className="flex items-center gap-4 mb-5 relative z-10">
+                          <div className="relative">
+                            <div className="absolute -inset-1 bg-aurora-500 rounded-lg blur opacity-30"></div>
+                            <span className="relative flex items-center justify-center h-8 w-8 rounded-lg bg-midnight-800 text-aurora-400 text-[13px] font-black border border-aurora-500/50">
+                              {index + 1}
+                            </span>
+                          </div>
+                          <h3 className="text-[16px] font-bold text-slate-100 tracking-wide">{title}</h3>
+                          <div className="flex-1 h-px bg-gradient-to-r from-white/10 to-transparent" />
+                        </div>
+
+                        {/* Section content */}
+                        <div className="ml-12 text-[14px] text-slate-300 leading-relaxed">
+                          {typeof content === 'object' && content !== null ? (
+                            <div className="space-y-4">
+                              {Object.entries(content).map(([subKey, subValue]) => (
+                                <motion.div
+                                  key={subKey}
+                                  whileHover={{ y: -2, scale: 1.005 }}
+                                  className="bg-midnight-800/50 p-5 rounded-xl border border-white/5 hover:border-aurora-500/20 hover:bg-midnight-800/80 transition-all duration-300 shadow-lg"
+                                >
+                                  <h4 className="text-[11px] font-bold text-aurora-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                    <span className="h-1 w-1 rounded-full bg-aurora-500" />
+                                    {formatFriendlyTitle(subKey)}
+                                  </h4>
+                                  <div className="text-slate-300 whitespace-pre-wrap font-mono text-[13px] leading-relaxed">
+                                    {stringifyNode(subValue)}
+                                  </div>
+                                </motion.div>
+                              ))}
+                            </div>
+                          ) : (
+                            <motion.div
+                              whileHover={{ y: -2 }}
+                              className="bg-midnight-800/50 p-5 rounded-xl border border-white/5 hover:border-aurora-500/20 transition-all duration-300"
+                            >
+                              <div className="text-slate-300 whitespace-pre-wrap font-mono text-[13px] leading-relaxed">{stringifyNode(content)}</div>
+                            </motion.div>
+                          )}
+                        </div>
+                      </motion.article>
+                    ))}
+                  </div>
+                )}
               </div>
-            </section>
+            </motion.section>
 
           </main>
 
