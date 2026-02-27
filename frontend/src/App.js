@@ -245,64 +245,75 @@ function App() {
                   </div>
                 )}
 
-                {messages.map((m, i) => (
-                  <div
-                    key={i}
-                    className={`flex items-end gap-2.5 animate-slide-up ${m.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
-                  >
-                    {/* Avatar */}
-                    <div
-                      className={`h-7 w-7 rounded-full flex-shrink-0 flex items-center justify-center ${m.role === 'user'
-                        ? 'bg-blue-600 shadow-md shadow-blue-500/25'
-                        : 'bg-slate-100 border border-slate-200'
-                        }`}
+                <AnimatePresence initial={false}>
+                  {messages.map((m, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                      className={`flex items-end gap-3 ${m.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
                     >
-                      {m.role === 'user' ? (
-                        <User className="h-3.5 w-3.5 text-white" />
-                      ) : (
-                        <Bot className="h-3.5 w-3.5 text-slate-500" />
-                      )}
-                    </div>
-
-                    {/* Bubble */}
-                    <div
-                      className={`max-w-[80%] px-4 py-3 text-[13px] leading-relaxed ${m.role === 'user'
-                        ? 'bg-blue-600 text-white rounded-2xl rounded-br-md shadow-md shadow-blue-500/15'
-                        : 'bg-slate-50 border border-slate-200/80 text-slate-700 rounded-2xl rounded-bl-md'
-                        }`}
-                    >
-                      <p>{m.content}</p>
-                      {m.questions && m.questions.length > 0 && (
-                        <ul className="mt-3 space-y-1.5 border-t border-slate-200/50 pt-3">
-                          {m.questions.map((q, qi) => (
-                            <li
-                              key={qi}
-                              className="flex items-start gap-2 text-[12px] text-slate-600 bg-white/60 px-3 py-2 rounded-lg"
-                            >
-                              <ChevronDown className="h-3.5 w-3.5 text-blue-400 mt-0.5 flex-shrink-0" />
-                              {q}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  </div>
-                ))}
-
-                {loading && (
-                  <div className="flex items-end gap-2.5">
-                    <div className="h-7 w-7 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center flex-shrink-0">
-                      <Bot className="h-3.5 w-3.5 text-slate-500" />
-                    </div>
-                    <div className="bg-slate-50 border border-slate-200/80 rounded-2xl rounded-bl-md px-5 py-3.5">
-                      <div className="flex items-center gap-1.5">
-                        <div className="h-2 w-2 rounded-full bg-blue-400 animate-bounce [animation-delay:0ms]" />
-                        <div className="h-2 w-2 rounded-full bg-blue-400 animate-bounce [animation-delay:150ms]" />
-                        <div className="h-2 w-2 rounded-full bg-blue-400 animate-bounce [animation-delay:300ms]" />
+                      {/* Avatar */}
+                      <div
+                        className={`h-8 w-8 rounded-full flex-shrink-0 flex items-center justify-center ${m.role === 'user'
+                            ? 'bg-gradient-to-br from-aurora-400 to-aurora-600 shadow-[0_0_15px_rgba(20,184,166,0.3)]'
+                            : 'bg-midnight-800 border border-white/10'
+                          }`}
+                      >
+                        {m.role === 'user' ? (
+                          <User className="h-4 w-4 text-midnight-900" />
+                        ) : (
+                          <Bot className="h-4 w-4 text-slate-400" />
+                        )}
                       </div>
-                    </div>
-                  </div>
-                )}
+
+                      {/* Bubble */}
+                      <div
+                        className={`max-w-[82%] px-4 py-3.5 text-[14px] leading-relaxed shadow-lg ${m.role === 'user'
+                            ? 'bg-gradient-to-br from-midnight-700 to-midnight-800 border border-aurora-500/20 text-slate-100 rounded-2xl rounded-br-sm'
+                            : 'bg-white/5 border border-white/10 text-slate-300 rounded-2xl rounded-bl-sm backdrop-blur-md'
+                          }`}
+                      >
+                        <p>{m.content}</p>
+                        {m.questions && m.questions.length > 0 && (
+                          <ul className="mt-4 space-y-2 border-t border-white/10 pt-4">
+                            {m.questions.map((q, qi) => (
+                              <li
+                                key={qi}
+                                className="flex items-start gap-2.5 text-[13px] text-slate-400 bg-black/20 px-3.5 py-2.5 rounded-xl"
+                              >
+                                <ChevronDown className="h-4 w-4 text-indigo-400 mt-0.5 flex-shrink-0" />
+                                {q}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+
+                  {loading && (
+                    <motion.div
+                      key="loading"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      className="flex items-end gap-3"
+                    >
+                      <div className="h-8 w-8 rounded-full bg-midnight-800 border border-white/10 flex items-center justify-center flex-shrink-0">
+                        <Bot className="h-4 w-4 text-slate-500" />
+                      </div>
+                      <div className="bg-white/5 border border-white/10 rounded-2xl rounded-bl-sm px-5 py-4 backdrop-blur-md shadow-lg">
+                        <div className="flex items-center gap-2">
+                          <div className="h-2 w-2 rounded-full bg-aurora-500 animate-bounce [animation-delay:0ms]" />
+                          <div className="h-2 w-2 rounded-full bg-aurora-500 animate-bounce [animation-delay:150ms]" />
+                          <div className="h-2 w-2 rounded-full bg-aurora-500 animate-bounce [animation-delay:300ms]" />
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
                 <div ref={messagesEndRef} />
               </div>
@@ -328,7 +339,7 @@ function App() {
                   </button>
                 </form>
               </div>
-            </section>
+            </motion.section>
 
             {/* ════════════════ ROADMAP PANEL ════════════════ */}
             <section className="lg:col-span-7 bg-white rounded-2xl border border-slate-200/80 shadow-sm shadow-slate-200/50 flex flex-col h-[calc(100vh-160px)] overflow-hidden">
