@@ -20,8 +20,9 @@ html {
 body {
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #eff6ff 100%);
-  color: #1e293b;
+  background-color: #0B0D17;
+  color: #f1f5f9;
+  overflow-x: hidden;
   min-height: 100vh;
 }
 
