@@ -129,22 +129,29 @@ function App() {
 
       <div className="relative z-10 flex flex-col h-screen">
         {/* ── NAVBAR ── */}
-        <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/60">
+        <nav className="sticky top-0 z-50 glass-header">
           <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
             {/* Logo */}
-            <div className="flex items-center gap-3">
-              <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
-                <Zap className="h-5 w-5 text-white" />
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-3"
+            >
+              <div className="relative group cursor-pointer">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-aurora-400 to-indigo-500 rounded-xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+                <div className="relative h-9 w-9 rounded-xl bg-midnight-800 border border-white/10 flex items-center justify-center">
+                  <Zap className="h-5 w-5 text-aurora-400" />
+                </div>
               </div>
               <div>
-                <h1 className="text-lg font-bold tracking-tight bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+                <h1 className="text-lg font-bold tracking-tight bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
                   IntentBridge
                 </h1>
-                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.15em] -mt-0.5">
+                <p className="text-[10px] font-bold text-aurora-500/80 uppercase tracking-[0.15em] -mt-0.5">
                   AI Project Synthesizer
                 </p>
               </div>
-            </div>
+            </motion.div>
 
             {/* Status bar */}
             <div className="flex items-center gap-5">
