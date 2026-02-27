@@ -184,28 +184,40 @@ function App() {
         </nav>
 
         {/* ── MAIN CONTENT ── */}
-        <div className="max-w-7xl mx-auto px-6 py-8">
-          <main className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div className="max-w-screen-2xl w-full mx-auto px-4 sm:px-6 py-6 flex-1 flex flex-col min-h-0">
+          <main className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start h-full">
 
             {/* ════════════════ CHAT PANEL ════════════════ */}
-            <section className="lg:col-span-5 bg-white rounded-2xl border border-slate-200/80 shadow-sm shadow-slate-200/50 flex flex-col h-[calc(100vh-160px)] overflow-hidden">
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="lg:col-span-5 glass-panel rounded-2xl flex flex-col h-full overflow-hidden"
+            >
               {/* Chat header */}
-              <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+              <div className="px-5 py-4 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
                 <div className="flex items-center gap-2.5">
-                  <div className="h-8 w-8 rounded-lg bg-blue-50 flex items-center justify-center">
-                    <MessageSquare className="h-4 w-4 text-blue-600" />
+                  <div className="h-8 w-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
+                    <MessageSquare className="h-4 w-4 text-indigo-400" />
                   </div>
                   <div>
-                    <h2 className="text-sm font-semibold text-slate-800">Conversation</h2>
-                    <p className="text-[11px] text-slate-400">Describe your project idea</p>
+                    <h2 className="text-sm font-semibold text-slate-200">Session</h2>
+                    <p className="text-[11px] text-slate-500">Describe your project idea</p>
                   </div>
                 </div>
-                {loading && (
-                  <div className="flex items-center gap-2 text-xs font-medium text-blue-500 bg-blue-50 px-3 py-1.5 rounded-full">
-                    <div className="h-3.5 w-3.5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-                    Processing
-                  </div>
-                )}
+                <AnimatePresence>
+                  {loading && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      className="flex items-center gap-2 text-xs font-medium text-aurora-400 bg-aurora-900/20 px-3 py-1.5 rounded-full border border-aurora-500/20"
+                    >
+                      <div className="h-3.5 w-3.5 border-2 border-aurora-500 border-t-transparent rounded-full animate-spin" />
+                      Analyzing
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* Messages area */}
