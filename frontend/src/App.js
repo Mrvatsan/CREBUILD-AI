@@ -6,6 +6,7 @@
 import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Send, Sparkles, MessageSquare, Map, ChevronDown, Zap, Layers, Bot, User } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const API_BASE = process.env.REACT_APP_API_BASE || 'http://localhost:8000/api/v1';
 
@@ -221,11 +222,10 @@ function App() {
                 >
                   {/* Avatar */}
                   <div
-                    className={`h-7 w-7 rounded-full flex-shrink-0 flex items-center justify-center ${
-                      m.role === 'user'
+                    className={`h-7 w-7 rounded-full flex-shrink-0 flex items-center justify-center ${m.role === 'user'
                         ? 'bg-blue-600 shadow-md shadow-blue-500/25'
                         : 'bg-slate-100 border border-slate-200'
-                    }`}
+                      }`}
                   >
                     {m.role === 'user' ? (
                       <User className="h-3.5 w-3.5 text-white" />
@@ -236,11 +236,10 @@ function App() {
 
                   {/* Bubble */}
                   <div
-                    className={`max-w-[80%] px-4 py-3 text-[13px] leading-relaxed ${
-                      m.role === 'user'
+                    className={`max-w-[80%] px-4 py-3 text-[13px] leading-relaxed ${m.role === 'user'
                         ? 'bg-blue-600 text-white rounded-2xl rounded-br-md shadow-md shadow-blue-500/15'
                         : 'bg-slate-50 border border-slate-200/80 text-slate-700 rounded-2xl rounded-bl-md'
-                    }`}
+                      }`}
                   >
                     <p>{m.content}</p>
                     {m.questions && m.questions.length > 0 && (
