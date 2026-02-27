@@ -154,28 +154,32 @@ function App() {
             </motion.div>
 
             {/* Status bar */}
-            <div className="flex items-center gap-5">
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-5"
+            >
               {/* Clarity meter */}
-              <div className="hidden sm:flex items-center gap-3 bg-slate-50 rounded-full px-4 py-2 border border-slate-200/60">
-                <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">Clarity</span>
-                <div className="w-24 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+              <div className="hidden sm:flex items-center gap-3 bg-midnight-800/50 rounded-full px-4 py-2 border border-white/5">
+                <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">Clarity</span>
+                <div className="w-24 h-1.5 bg-slate-800 rounded-full overflow-hidden">
                   <div
-                    className={`h-full rounded-full transition-all duration-700 ease-out ${clarityBg}`}
+                    className={`h-full rounded-full transition-all duration-700 ease-out shadow-[0_0_10px_rgba(20,184,166,0.5)] ${clarityBg}`}
                     style={{ width: `${clarityScore}%` }}
                   />
                 </div>
-                <span className={`text-sm font-bold tabular-nums ${clarityColor}`}>{clarityScore}%</span>
+                <span className={`text-sm font-bold tabular-nums drop-shadow-md ${clarityColor}`}>{clarityScore}%</span>
               </div>
 
               {/* Live indicator */}
-              <div className="flex items-center gap-2 text-xs font-medium text-slate-500">
+              <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
                 <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-aurora-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-aurora-500" />
                 </span>
                 Online
               </div>
-            </div>
+            </motion.div>
           </div>
         </nav>
 
