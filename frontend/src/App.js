@@ -257,8 +257,8 @@ function App() {
                       {/* Avatar */}
                       <div
                         className={`h-8 w-8 rounded-full flex-shrink-0 flex items-center justify-center ${m.role === 'user'
-                            ? 'bg-gradient-to-br from-aurora-400 to-aurora-600 shadow-[0_0_15px_rgba(20,184,166,0.3)]'
-                            : 'bg-midnight-800 border border-white/10'
+                          ? 'bg-gradient-to-br from-aurora-400 to-aurora-600 shadow-[0_0_15px_rgba(20,184,166,0.3)]'
+                          : 'bg-midnight-800 border border-white/10'
                           }`}
                       >
                         {m.role === 'user' ? (
@@ -271,8 +271,8 @@ function App() {
                       {/* Bubble */}
                       <div
                         className={`max-w-[82%] px-4 py-3.5 text-[14px] leading-relaxed shadow-lg ${m.role === 'user'
-                            ? 'bg-gradient-to-br from-midnight-700 to-midnight-800 border border-aurora-500/20 text-slate-100 rounded-2xl rounded-br-sm'
-                            : 'bg-white/5 border border-white/10 text-slate-300 rounded-2xl rounded-bl-sm backdrop-blur-md'
+                          ? 'bg-gradient-to-br from-midnight-700 to-midnight-800 border border-aurora-500/20 text-slate-100 rounded-2xl rounded-br-sm'
+                          : 'bg-white/5 border border-white/10 text-slate-300 rounded-2xl rounded-bl-sm backdrop-blur-md'
                           }`}
                       >
                         <p>{m.content}</p>
@@ -319,23 +319,27 @@ function App() {
               </div>
 
               {/* Input bar */}
-              <div className="p-4 bg-slate-50/80 border-t border-slate-100">
-                <form onSubmit={handleSubmit} className="flex items-center gap-3">
-                  <input
-                    ref={inputRef}
-                    type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    className="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-all"
-                    placeholder="Describe your project idea..."
-                    disabled={loading}
-                  />
+              <div className="p-4 bg-white/[0.02] border-t border-white/5 backdrop-blur-xl">
+                <form onSubmit={handleSubmit} className="flex items-center gap-3 group">
+                  <div className="relative flex-1">
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-aurora-500/20 to-indigo-500/20 rounded-xl blur opacity-0 group-focus-within:opacity-100 transition duration-500"></div>
+                    <input
+                      ref={inputRef}
+                      type="text"
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      className="relative w-full bg-midnight-900 border border-white/10 rounded-xl px-5 py-3.5 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-aurora-500/50 transition-all shadow-inner"
+                      placeholder="Sequence initialization parameters..."
+                      disabled={loading}
+                    />
+                  </div>
                   <button
                     type="submit"
                     disabled={loading || !input.trim()}
-                    className="h-11 w-11 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:bg-slate-200 disabled:cursor-not-allowed text-white flex items-center justify-center transition-all duration-200 shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 active:scale-95"
+                    className="relative h-[52px] w-[52px] rounded-xl bg-aurora-600 hover:bg-aurora-500 disabled:bg-slate-800 disabled:text-slate-600 disabled:border overflow-hidden disabled:border-white/5 disabled:cursor-not-allowed text-midnight-900 flex items-center justify-center transition-all duration-300 shadow-[0_0_20px_rgba(20,184,166,0.3)] hover:shadow-[0_0_25px_rgba(20,184,166,0.5)] active:scale-95 group/btn"
                   >
-                    <Send className="h-4.5 w-4.5" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none group-hover/btn:opacity-0 transition-opacity" />
+                    <Send className="h-5 w-5 ml-1" />
                   </button>
                 </form>
               </div>
