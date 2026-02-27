@@ -41,11 +41,11 @@ h1, h2, h3, h4, h5, h6 {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #e2e8f0;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #cbd5e1;
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .scrollbar::-webkit-scrollbar {
@@ -55,11 +55,11 @@ h1, h2, h3, h4, h5, h6 {
   background: transparent;
 }
 .scrollbar::-webkit-scrollbar-thumb {
-  background: #e2e8f0;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 999px;
 }
 .scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #cbd5e1;
+  background: rgba(255, 255, 255, 0.2);
 }
 
 /* ─── Animations ─── */
