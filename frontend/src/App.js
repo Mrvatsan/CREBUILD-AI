@@ -45,9 +45,9 @@ function App() {
   }, [messages.length, loading, plan]);
 
   const clarityColor =
-    clarityScore >= 80 ? 'text-emerald-500' : clarityScore >= 50 ? 'text-amber-500' : 'text-rose-400';
+    clarityScore >= 80 ? 'text-aurora-400' : clarityScore >= 50 ? 'text-amber-400' : 'text-rose-400';
   const clarityBg =
-    clarityScore >= 80 ? 'bg-emerald-500' : clarityScore >= 50 ? 'bg-amber-500' : 'bg-rose-400';
+    clarityScore >= 80 ? 'bg-aurora-500' : clarityScore >= 50 ? 'bg-amber-500' : 'bg-rose-500';
 
   /* ── Helpers ── */
   const stringifyNode = (node) => {
@@ -223,8 +223,8 @@ function App() {
                   {/* Avatar */}
                   <div
                     className={`h-7 w-7 rounded-full flex-shrink-0 flex items-center justify-center ${m.role === 'user'
-                        ? 'bg-blue-600 shadow-md shadow-blue-500/25'
-                        : 'bg-slate-100 border border-slate-200'
+                      ? 'bg-blue-600 shadow-md shadow-blue-500/25'
+                      : 'bg-slate-100 border border-slate-200'
                       }`}
                   >
                     {m.role === 'user' ? (
@@ -237,8 +237,8 @@ function App() {
                   {/* Bubble */}
                   <div
                     className={`max-w-[80%] px-4 py-3 text-[13px] leading-relaxed ${m.role === 'user'
-                        ? 'bg-blue-600 text-white rounded-2xl rounded-br-md shadow-md shadow-blue-500/15'
-                        : 'bg-slate-50 border border-slate-200/80 text-slate-700 rounded-2xl rounded-bl-md'
+                      ? 'bg-blue-600 text-white rounded-2xl rounded-br-md shadow-md shadow-blue-500/15'
+                      : 'bg-slate-50 border border-slate-200/80 text-slate-700 rounded-2xl rounded-bl-md'
                       }`}
                   >
                     <p>{m.content}</p>
