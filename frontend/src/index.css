@@ -120,3 +120,61 @@ button:focus-visible {
   /* aurora-500 with opacity */
   color: #fff;
 }
+
+/* ══════════════════════════════════════════════════════════════
+   Interactive Background — Cursor & Ripple Effects
+   ══════════════════════════════════════════════════════════════ */
+
+/* Soft radial glow that follows the mouse pointer */
+.ib-cursor-glow {
+  position: fixed;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(94, 234, 212, 0.55) 0%, rgba(99, 102, 241, 0.25) 50%, transparent 100%);
+  box-shadow:
+    0 0 20px 8px rgba(20, 184, 166, 0.25),
+    0 0 60px 20px rgba(99, 102, 241, 0.1);
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  transition: opacity 0.3s ease, width 0.25s ease, height 0.25s ease;
+  mix-blend-mode: screen;
+}
+
+/* Expand on hovering interactive elements */
+a:hover ~ .ib-cursor-glow,
+button:hover ~ .ib-cursor-glow {
+  width: 48px;
+  height: 48px;
+}
+
+/* Click ripple ring */
+.ib-ripple {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid rgba(94, 234, 212, 0.6);
+  transform: translate(-50%, -50%) scale(0);
+  z-index: 9998;
+  opacity: 0;
+}
+
+.ib-ripple-active {
+  animation: ib-ripple-expand 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes ib-ripple-expand {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+    border-color: rgba(94, 234, 212, 0.7);
+    box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.3);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(30);
+    opacity: 0;
+    border-color: rgba(99, 102, 241, 0);
+    box-shadow: 0 0 30px 10px rgba(20, 184, 166, 0);
+  }
+}
