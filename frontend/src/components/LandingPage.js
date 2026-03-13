@@ -78,7 +78,7 @@ const LandingPage = ({ onLaunch }) => {
                         Production-grade AI System
                     </div>
 
-                    <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
+                    <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 text-slate-100">
                         Bridge the gap between <br className="hidden md:block" />
                         <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-aurora-400 bg-clip-text text-transparent">vague ideas</span> and <span className="bg-gradient-to-r from-aurora-400 to-emerald-400 bg-clip-text text-transparent">structured execution</span>
                     </h1>
