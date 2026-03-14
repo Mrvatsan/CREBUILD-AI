@@ -129,6 +129,68 @@ function App() {
     }));
   }, [plan]);
 
+  const buildSections = useMemo(() => {
+    if (!build) return [];
+    return Object.entries(build).map(([key, value]) => ({
+      key,
+      title: formatFriendlyTitle(key),
+      content: value,
+    }));
+  }, [build]);
+
+  /* ── Render a build section's content (handles file arrays & objects) ── */
+  const renderBuildContent = (content) => {
+    if (!content) return <span className="text-slate-500 italic">No data</span>;
+    // File array: [{path, content}]
+    if (Array.isArray(content)) {
+      return (
+        <div className="space-y-3">
+          {content.map((item, i) => (
+            <div key={i} className="bg-midnight-900 border border-white/10 rounded-xl overflow-hidden">
+              {item.path && (
+                <div className="px-4 py-2 bg-white/5 border-b border-white/10 flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-aurora-500" />
+                  <span className="text-[12px] font-mono font-semibold text-aurora-300">{item.path}</span>
+                </div>
+              )}
+              <pre className="px-4 py-3 text-[12px] font-mono text-slate-300 overflow-x-auto leading-relaxed">
+                {typeof item.content === 'string' ? item.content : stringifyNode(item)}
+              </pre>
+            </div>
+          ))}
+        </div>
+      );
+    }
+    // Object with a 'files' key
+    if (content.files && Array.isArray(content.files)) {
+      return renderBuildContent(content.files);
+    }
+    // Plain string / sql_schema
+    if (typeof content === 'string') {
+      return (
+        <pre className="bg-midnight-900 border border-white/10 rounded-xl px-4 py-3 text-[12px] font-mono text-slate-300 overflow-x-auto leading-relaxed whitespace-pre-wrap">
+          {content}
+        </pre>
+      );
+    }
+    // Generic object — render sub-keys
+    return (
+      <div className="space-y-3">
+        {Object.entries(content).map(([k, v]) => (
+          <div key={k} className="bg-midnight-800/50 p-4 rounded-xl border border-white/5">
+            <h5 className="text-[11px] font-bold text-aurora-400 uppercase tracking-widest mb-2">
+              {formatFriendlyTitle(k)}
+            </h5>
+            {Array.isArray(v) || typeof v === 'object'
+              ? renderBuildContent(v)
+              : <pre className="text-[12px] font-mono text-slate-300 whitespace-pre-wrap">{stringifyNode(v)}</pre>
+            }
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   /* ================================================================
      RENDER
      ================================================================ */
