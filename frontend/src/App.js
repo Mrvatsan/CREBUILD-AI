@@ -94,11 +94,18 @@ function App() {
           },
         ]);
       } else if (result.status === 'plan_generated') {
+        const buildKeys = result.build ? Object.keys(result.build) : [];
         setMessages((prev) => [
           ...prev,
-          { role: 'system', content: 'Your execution plan is ready! Check the Roadmap panel →' },
+          {
+            role: 'system',
+            content: `Execution plan generated! The Roadmap panel has been updated.\n\n📋 Plan sections: ${result.plan ? Object.keys(result.plan).join(', ') : 'none'}\n🔧 Build Engine produced: ${buildKeys.join(', ') || 'none'}${result.validation?.is_valid ? '\n✅ Validation passed' : result.validation ? `\n⚠️ Validation: ${result.validation.errors?.join(', ')}` : ''}\n\nSwitch to the "Build Output" tab in the Roadmap panel to see the generated architecture & code.`,
+          },
         ]);
         setPlan(result.plan);
+        setBuild(result.build || null);
+        setValidation(result.validation || null);
+        setActiveTab('plan');
       }
     } catch (error) {
       console.error('Error processing intent:', error);
