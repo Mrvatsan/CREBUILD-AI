@@ -585,9 +585,135 @@ function App() {
             </div>
           </motion.div>
         )}
-      </AnimatePresence>
-    </div>
-  );
-}
+                      <div className="space-y-8">
+                        {planSections.map(({ key, title, content }, index) => (
+                          <motion.article
+                            key={key}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.1, duration: 0.5, type: 'spring' }}
+                            className="relative"
+                          >
+                            {/* Section line connector (except last) */}
+                            {index !== planSections.length - 1 && (
+                              <div className="absolute left-[15px] top-[30px] bottom-[-40px] w-px bg-gradient-to-b from-aurora-500/50 to-transparent z-0" />
+                            )}
 
-export default App;
+                            {/* Section header */}
+                            <div className="flex items-center gap-4 mb-5 relative z-10">
+                              <div className="relative">
+                                <div className="absolute -inset-1 bg-aurora-500 rounded-lg blur opacity-30"></div>
+                                <span className="relative flex items-center justify-center h-8 w-8 rounded-lg bg-midnight-800 text-aurora-400 text-[13px] font-black border border-aurora-500/50">
+                                  {index + 1}
+                                </span>
+                              </div>
+                              <h3 className="text-[16px] font-bold text-slate-100 tracking-wide">{title}</h3>
+                              <div className="flex-1 h-px bg-gradient-to-r from-white/10 to-transparent" />
+                            </div>
+
+                            {/* Section content */}
+                            <div className="ml-12 text-[14px] text-slate-300 leading-relaxed">
+                              {typeof content === 'object' && content !== null ? (
+                                <div className="space-y-4">
+                                  {Object.entries(content).map(([subKey, subValue]) => (
+                                    <motion.div
+                                      key={subKey}
+                                      whileHover={{ y: -2, scale: 1.005 }}
+                                      className="bg-midnight-800/50 p-5 rounded-xl border border-white/5 hover:border-aurora-500/20 hover:bg-midnight-800/80 transition-all duration-300 shadow-lg"
+                                    >
+                                      <h4 className="text-[11px] font-bold text-aurora-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                        <span className="h-1 w-1 rounded-full bg-aurora-500" />
+                                        {formatFriendlyTitle(subKey)}
+                                      </h4>
+                                      <div className="text-slate-300 whitespace-pre-wrap font-mono text-[13px] leading-relaxed">
+                                        {stringifyNode(subValue)}
+                                      </div>
+                                    </motion.div>
+                                  ))}
+                                </div>
+                              ) : (
+                                <motion.div
+                                  whileHover={{ y: -2 }}
+                                  className="bg-midnight-800/50 p-5 rounded-xl border border-white/5 hover:border-aurora-500/20 transition-all duration-300"
+                                >
+                                  <div className="text-slate-300 whitespace-pre-wrap font-mono text-[13px] leading-relaxed">{stringifyNode(content)}</div>
+                                </motion.div>
+                              )}
+                            </div>
+                          </motion.article>
+                        ))}
+                      </div>
+                    ) : (
+                      /* ── BUILD ENGINE TAB ── */
+                      <div className="space-y-8">
+                        {buildSections.length === 0 ? (
+                          <div className="flex flex-col items-center justify-center py-20 text-center">
+                            <span className="text-4xl mb-4">🔧</span>
+                            <p className="text-slate-500 text-sm">No build output available yet.</p>
+                          </div>
+                        ) : (
+                          buildSections.map(({ key, title, content }, index) => (
+                            <motion.article
+                              key={key}
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: index * 0.1, duration: 0.5, type: 'spring' }}
+                              className="relative"
+                            >
+                              {index !== buildSections.length - 1 && (
+                                <div className="absolute left-[15px] top-[30px] bottom-[-40px] w-px bg-gradient-to-b from-indigo-500/50 to-transparent z-0" />
+                              )}
+                              <div className="flex items-center gap-4 mb-5 relative z-10">
+                                <div className="relative">
+                                  <div className="absolute -inset-1 bg-indigo-500 rounded-lg blur opacity-30"></div>
+                                  <span className="relative flex items-center justify-center h-8 w-8 rounded-lg bg-midnight-800 text-indigo-400 text-[13px] font-black border border-indigo-500/50">
+                                    {index + 1}
+                                  </span>
+                                </div>
+                                <h3 className="text-[16px] font-bold text-slate-100 tracking-wide">{title}</h3>
+                                <div className="flex-1 h-px bg-gradient-to-r from-white/10 to-transparent" />
+                              </div>
+                              <div className="ml-12">
+                                {renderBuildContent(content)}
+                              </div>
+                            </motion.article>
+                          ))
+                        )}
+                        {/* Validation summary */}
+                        {validation && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className={`rounded-xl p-5 border ${
+                              validation.is_valid
+                                ? 'bg-emerald-900/20 border-emerald-500/30'
+                                : 'bg-rose-900/20 border-rose-500/30'
+                            }`}
+                          >
+                            <h4 className="text-[13px] font-bold mb-3 flex items-center gap-2">
+                              {validation.is_valid ? '✅' : '⚠️'}
+                              <span className={validation.is_valid ? 'text-emerald-400' : 'text-rose-400'}>
+                                Validation {validation.is_valid ? 'Passed' : 'Failed'}
+                              </span>
+                            </h4>
+                            {validation.errors?.length > 0 && (
+                              <ul className="space-y-1 mb-3">
+                                {validation.errors.map((e, i) => (
+                                  <li key={i} className="text-[12px] text-rose-300 font-mono">• {e}</li>
+                                ))}
+                              </ul>
+                            )}
+                            {validation.improvements?.length > 0 && (
+                              <div>
+                                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Suggestions</p>
+                                <ul className="space-y-1">
+                                  {validation.improvements.map((imp, i) => (
+                                    <li key={i} className="text-[12px] text-slate-300 font-mono">→ {imp}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </motion.div>
+                        )}
+                      </div>
+                    )}
