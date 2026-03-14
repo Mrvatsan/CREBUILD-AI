@@ -443,28 +443,65 @@ function App() {
                   className="lg:col-span-7 glass-panel rounded-2xl flex flex-col h-full overflow-hidden"
                 >
                   {/* Roadmap header */}
-                  <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
-                    <div className="flex items-center gap-3">
-                      <div className="h-9 w-9 rounded-xl bg-aurora-500/10 border border-aurora-500/20 flex items-center justify-center">
-                        <Map className="h-4.5 w-4.5 text-aurora-400" />
+                  {/* Roadmap header */}
+                  <div className="px-6 py-4 border-b border-white/5 bg-white/[0.02]">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <div className="h-9 w-9 rounded-xl bg-aurora-500/10 border border-aurora-500/20 flex items-center justify-center">
+                          <Map className="h-4.5 w-4.5 text-aurora-400" />
+                        </div>
+                        <div>
+                          <h2 className="text-[15px] font-bold text-slate-200">Execution Matrix</h2>
+                          <p className="text-[11px] text-slate-500 uppercase tracking-wider mt-0.5">Architecture & Plan</p>
+                        </div>
                       </div>
-                      <div>
-                        <h2 className="text-[15px] font-bold text-slate-200">Execution Matrix</h2>
-                        <p className="text-[11px] text-slate-500 uppercase tracking-wider mt-0.5">Architecture & Plan</p>
-                      </div>
+                      <AnimatePresence>
+                        {plan && (
+                          <motion.span
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="inline-flex items-center gap-2 text-[11px] font-bold text-aurora-300 bg-aurora-900/40 px-3 py-1.5 rounded-full border border-aurora-500/30 shadow-[0_0_10px_rgba(20,184,166,0.2)]"
+                          >
+                            <span className="h-1.5 w-1.5 rounded-full bg-aurora-400 animate-pulse" />
+                            Plan Synthesized
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
                     </div>
-                    <AnimatePresence>
-                      {plan && (
-                        <motion.span
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          className="inline-flex items-center gap-2 text-[11px] font-bold text-aurora-300 bg-aurora-900/40 px-3 py-1.5 rounded-full border border-aurora-500/30 shadow-[0_0_10px_rgba(20,184,166,0.2)]"
+                    {/* Tabs — only visible after plan is ready */}
+                    {plan && (
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => setActiveTab('plan')}
+                          className={`px-4 py-1.5 rounded-lg text-[12px] font-semibold transition-all duration-200 ${
+                            activeTab === 'plan'
+                              ? 'bg-aurora-600/30 text-aurora-300 border border-aurora-500/40'
+                              : 'text-slate-500 hover:text-slate-300 border border-transparent hover:border-white/10'
+                          }`}
                         >
-                          <span className="h-1.5 w-1.5 rounded-full bg-aurora-400 animate-pulse" />
-                          Plan Synthesized
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
+                          📋 Execution Plan
+                        </button>
+                        <button
+                          onClick={() => setActiveTab('build')}
+                          className={`px-4 py-1.5 rounded-lg text-[12px] font-semibold transition-all duration-200 ${
+                            activeTab === 'build'
+                              ? 'bg-indigo-600/30 text-indigo-300 border border-indigo-500/40'
+                              : 'text-slate-500 hover:text-slate-300 border border-transparent hover:border-white/10'
+                          }`}
+                        >
+                          🔧 Build Engine {build && <span className="ml-1 text-[10px] bg-indigo-500/20 text-indigo-400 px-1.5 py-0.5 rounded-full">{buildSections.length}</span>}
+                        </button>
+                        {validation && (
+                          <span className={`ml-auto px-3 py-1.5 rounded-lg text-[11px] font-semibold ${
+                            validation.is_valid
+                              ? 'bg-emerald-900/30 text-emerald-400 border border-emerald-500/30'
+                              : 'bg-rose-900/30 text-rose-400 border border-rose-500/30'
+                          }`}>
+                            {validation.is_valid ? '✅ Valid' : '⚠️ Issues'}
+                          </span>
+                        )}
+                      </div>
+                    )}
                   </div>
 
                   {/* Roadmap body */}
