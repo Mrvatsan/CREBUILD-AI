@@ -1,0 +1,20 @@
+diff --git a/frontend/src/App.js b/frontend/src/App.js
+index fce1612..ef84a2b 100644
+--- a/frontend/src/App.js
++++ b/frontend/src/App.js
+@@ -1,11 +1,12 @@
+ ﻿/**
+- * IntentBridge — Main Application Component
+- * Version: 3.0.0
+- * Last Updated: 2026-02-26
++ * IntentBridge — Main Application Component (Midnight Aurora Theme)
++ * Version: 4.0.0
++ * Last Updated: 2026-02-27
+  */
+ import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+ import axios from 'axios';
+ import { Send, Sparkles, MessageSquare, Map, ChevronDown, Zap, Layers, Bot, User } from 'lucide-react';
++import { motion, AnimatePresence } from 'framer-motion';
+ 
+ const API_BASE = process.env.REACT_APP_API_BASE || 'http://localhost:8000/api/v1';
+ 

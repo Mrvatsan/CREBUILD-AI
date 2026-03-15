@@ -1,0 +1,16 @@
+diff --git a/frontend/src/App.js b/frontend/src/App.js
+index fce1612..ef84a2b 100644
+--- a/frontend/src/App.js
++++ b/frontend/src/App.js
+@@ -44,9 +45,9 @@ function App() {
+   }, [messages.length, loading, plan]);
+ 
+   const clarityColor =
+-    clarityScore >= 80 ? 'text-emerald-500' : clarityScore >= 50 ? 'text-amber-500' : 'text-rose-400';
++    clarityScore >= 80 ? 'text-aurora-400' : clarityScore >= 50 ? 'text-amber-400' : 'text-rose-400';
+   const clarityBg =
+-    clarityScore >= 80 ? 'bg-emerald-500' : clarityScore >= 50 ? 'bg-amber-500' : 'bg-rose-400';
++    clarityScore >= 80 ? 'bg-aurora-500' : clarityScore >= 50 ? 'bg-amber-500' : 'bg-rose-500';
+ 
+   /* ── Helpers ── */
+   const stringifyNode = (node) => {
