@@ -1,0 +1,12 @@
+diff --git a/frontend/src/index.css b/frontend/src/index.css
+index dc130ee..6ee9e6a 100644
+--- a/frontend/src/index.css
++++ b/frontend/src/index.css
+@@ -67,6 +94,7 @@ h1, h2, h3, h4, h5, h6 {
+     opacity: 0;
+     transform: translateY(8px);
+   }
++
+   to {
+     opacity: 1;
+     transform: translateY(0);
