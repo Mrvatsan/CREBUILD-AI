@@ -1,0 +1,23 @@
+diff --git a/frontend/src/index.css b/frontend/src/index.css
+index dc130ee..6ee9e6a 100644
+--- a/frontend/src/index.css
++++ b/frontend/src/index.css
+@@ -80,12 +108,14 @@ h1, h2, h3, h4, h5, h6 {
+ /* ─── Focus ring utility ─── */
+ input:focus-visible,
+ button:focus-visible {
+-  outline: 2px solid #3b82f6;
++  outline: 2px solid #14b8a6;
++  /* aurora-500 */
+   outline-offset: 2px;
+ }
+ 
+ /* ─── Selection ─── */
+ ::selection {
+-  background: #bfdbfe;
+-  color: #1e3a5f;
++  background: rgba(20, 184, 166, 0.3);
++  /* aurora-500 with opacity */
++  color: #fff;
+ }
+\ No newline at end of file
