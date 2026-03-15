@@ -6,7 +6,7 @@
 import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Send, Sparkles, MessageSquare, Map, ChevronDown, Zap, Layers, Bot, User } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring, useTransform } from 'framer-motion';
 import LandingPage from './components/LandingPage';
 import InteractiveBackground from './components/InteractiveBackground';
 
@@ -32,6 +32,7 @@ function App() {
   const [sessionId] = useState(() => `session_${Math.random().toString(36).substr(2, 9)}`);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const roadmapScrollRef = useRef(null);
 
   const apiClient = useMemo(() => axios.create({ baseURL: API_BASE }), []);
 
@@ -137,6 +138,17 @@ function App() {
       content: value,
     }));
   }, [build]);
+
+  const { scrollYProgress: roadmapScrollProgress } = useScroll({
+    container: roadmapScrollRef,
+    offset: ['start start', 'end end'],
+  });
+  const roadmapLineScale = useSpring(roadmapScrollProgress, {
+    stiffness: 180,
+    damping: 30,
+    mass: 0.2,
+  });
+  const roadmapOrbTop = useTransform(roadmapScrollProgress, [0, 1], ['0%', '100%']);
 
   /* ── Render a build section's content (handles file arrays & objects) ── */
   const renderBuildContent = (content) => {
@@ -442,8 +454,6 @@ function App() {
                   transition={{ delay: 0.2 }}
                   className="lg:col-span-7 glass-panel rounded-2xl flex flex-col h-full overflow-hidden"
                 >
-                  {/* Roadmap header */}
-                  {/* Roadmap header */}
                   <div className="px-6 py-4 border-b border-white/5 bg-white/[0.02]">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-3">
@@ -468,7 +478,7 @@ function App() {
                         )}
                       </AnimatePresence>
                     </div>
-                    {/* Tabs — only visible after plan is ready */}
+
                     {plan && (
                       <div className="flex gap-2">
                         <button
@@ -504,12 +514,11 @@ function App() {
                     )}
                   </div>
 
-                  {/* Roadmap body */}
-                  <div className="flex-1 overflow-y-auto px-6 py-6 scrollbar">
+                  <div ref={roadmapScrollRef} className="flex-1 overflow-y-auto px-6 py-6 scrollbar scroll-smooth">
                     {!plan ? (
                       <div className="h-full flex flex-col items-center justify-center text-center px-8">
                         <div className="relative group mb-6">
-                          <div className="absolute -inset-4 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-full blur-lg opacity-50 group-hover:opacity-100 transition duration-1000 animate-pulse-slow"></div>
+                          <div className="absolute -inset-4 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-full blur-lg opacity-50 group-hover:opacity-100 transition duration-1000"></div>
                           <div className="relative h-20 w-20 rounded-2xl bg-midnight-800 border border-white/10 flex items-center justify-center backdrop-blur-sm">
                             <Layers className="h-8 w-8 text-indigo-400/50 group-hover:text-indigo-400 transition-colors duration-500" />
                           </div>
@@ -519,132 +528,67 @@ function App() {
                           Provide project specifications in the session terminal. A comprehensive technical roadmap will be rendered here.
                         </p>
                       </div>
-                    ) : (
-                      <div className="space-y-8">
-                        {planSections.map(({ key, title, content }, index) => (
-                          <motion.article
-                            key={key}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1, duration: 0.5, type: 'spring' }}
-                            className="relative"
-                          >
-                            {/* Section line connector (except last) */}
-                            {index !== planSections.length - 1 && (
-                              <div className="absolute left-[15px] top-[30px] bottom-[-40px] w-px bg-gradient-to-b from-aurora-500/50 to-transparent z-0" />
-                            )}
+                    ) : activeTab === 'plan' ? (
+                      <div className="relative">
+                        <div className="pointer-events-none absolute left-[15px] top-2 bottom-2 w-px bg-white/10" />
+                        <motion.div
+                          style={{ scaleY: roadmapLineScale, transformOrigin: 'top' }}
+                          className="pointer-events-none absolute left-[15px] top-2 bottom-2 w-px bg-gradient-to-b from-aurora-300 via-aurora-500 to-indigo-500 shadow-[0_0_14px_rgba(20,184,166,0.45)]"
+                        />
+                        <motion.span
+                          style={{ top: roadmapOrbTop }}
+                          className="pointer-events-none absolute left-[15px] h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-aurora-300 shadow-[0_0_18px_rgba(94,234,212,0.8)]"
+                        />
 
-                            {/* Section header */}
-                            <div className="flex items-center gap-4 mb-5 relative z-10">
-                              <div className="relative">
-                                <div className="absolute -inset-1 bg-aurora-500 rounded-lg blur opacity-30"></div>
-                                <span className="relative flex items-center justify-center h-8 w-8 rounded-lg bg-midnight-800 text-aurora-400 text-[13px] font-black border border-aurora-500/50">
-                                  {index + 1}
-                                </span>
-                              </div>
-                              <h3 className="text-[16px] font-bold text-slate-100 tracking-wide">{title}</h3>
-                              <div className="flex-1 h-px bg-gradient-to-r from-white/10 to-transparent" />
-                            </div>
-
-                            {/* Section content */}
-                            <div className="ml-12 text-[14px] text-slate-300 leading-relaxed">
-                              {typeof content === 'object' && content !== null ? (
-                                <div className="space-y-4">
-                                  {Object.entries(content).map(([subKey, subValue]) => (
-                                    <motion.div
-                                      key={subKey}
-                                      whileHover={{ y: -2, scale: 1.005 }}
-                                      className="bg-midnight-800/50 p-5 rounded-xl border border-white/5 hover:border-aurora-500/20 hover:bg-midnight-800/80 transition-all duration-300 shadow-lg"
-                                    >
-                                      <h4 className="text-[11px] font-bold text-aurora-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                                        <span className="h-1 w-1 rounded-full bg-aurora-500" />
-                                        {formatFriendlyTitle(subKey)}
-                                      </h4>
-                                      <div className="text-slate-300 whitespace-pre-wrap font-mono text-[13px] leading-relaxed">
-                                        {stringifyNode(subValue)}
-                                      </div>
-                                    </motion.div>
-                                  ))}
+                        <div className="space-y-7 pl-12">
+                          {planSections.map(({ key, title, content }, index) => (
+                            <motion.article
+                              key={key}
+                              initial={{ opacity: 0, y: 20 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              viewport={{ once: true, amount: 0.35 }}
+                              transition={{ delay: index * 0.06, duration: 0.45 }}
+                              className="relative"
+                            >
+                              <div className="absolute left-[-38px] top-6 h-5 w-5 rounded-full border border-aurora-300/60 bg-midnight-900 shadow-[0_0_10px_rgba(20,184,166,0.45)]" />
+                              <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-midnight-800/45 p-5 backdrop-blur-md hover:border-aurora-400/40 transition-all duration-300">
+                                <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-aurora-500/10 via-transparent to-indigo-500/10 opacity-80" />
+                                <div className="relative flex items-center gap-3 mb-4">
+                                  <span className="flex h-7 min-w-7 items-center justify-center rounded-lg border border-aurora-500/40 bg-midnight-900 text-aurora-300 text-[12px] font-bold px-2">
+                                    {index + 1}
+                                  </span>
+                                  <h3 className="text-[15px] font-bold text-slate-100 tracking-wide">{title}</h3>
                                 </div>
-                              ) : (
-                                <motion.div
-                                  whileHover={{ y: -2 }}
-                                  className="bg-midnight-800/50 p-5 rounded-xl border border-white/5 hover:border-aurora-500/20 transition-all duration-300"
-                                >
-                                  <div className="text-slate-300 whitespace-pre-wrap font-mono text-[13px] leading-relaxed">{stringifyNode(content)}</div>
-                                </motion.div>
-                              )}
-                            </div>
-                          </motion.article>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </motion.section>
-              </main>
-            </div>
-          </motion.div>
-        )}
-                      <div className="space-y-8">
-                        {planSections.map(({ key, title, content }, index) => (
-                          <motion.article
-                            key={key}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1, duration: 0.5, type: 'spring' }}
-                            className="relative"
-                          >
-                            {/* Section line connector (except last) */}
-                            {index !== planSections.length - 1 && (
-                              <div className="absolute left-[15px] top-[30px] bottom-[-40px] w-px bg-gradient-to-b from-aurora-500/50 to-transparent z-0" />
-                            )}
 
-                            {/* Section header */}
-                            <div className="flex items-center gap-4 mb-5 relative z-10">
-                              <div className="relative">
-                                <div className="absolute -inset-1 bg-aurora-500 rounded-lg blur opacity-30"></div>
-                                <span className="relative flex items-center justify-center h-8 w-8 rounded-lg bg-midnight-800 text-aurora-400 text-[13px] font-black border border-aurora-500/50">
-                                  {index + 1}
-                                </span>
-                              </div>
-                              <h3 className="text-[16px] font-bold text-slate-100 tracking-wide">{title}</h3>
-                              <div className="flex-1 h-px bg-gradient-to-r from-white/10 to-transparent" />
-                            </div>
-
-                            {/* Section content */}
-                            <div className="ml-12 text-[14px] text-slate-300 leading-relaxed">
-                              {typeof content === 'object' && content !== null ? (
-                                <div className="space-y-4">
-                                  {Object.entries(content).map(([subKey, subValue]) => (
-                                    <motion.div
-                                      key={subKey}
-                                      whileHover={{ y: -2, scale: 1.005 }}
-                                      className="bg-midnight-800/50 p-5 rounded-xl border border-white/5 hover:border-aurora-500/20 hover:bg-midnight-800/80 transition-all duration-300 shadow-lg"
-                                    >
-                                      <h4 className="text-[11px] font-bold text-aurora-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                                        <span className="h-1 w-1 rounded-full bg-aurora-500" />
-                                        {formatFriendlyTitle(subKey)}
-                                      </h4>
-                                      <div className="text-slate-300 whitespace-pre-wrap font-mono text-[13px] leading-relaxed">
-                                        {stringifyNode(subValue)}
-                                      </div>
-                                    </motion.div>
-                                  ))}
+                                <div className="relative text-[14px] text-slate-300 leading-relaxed">
+                                  {typeof content === 'object' && content !== null ? (
+                                    <div className="space-y-3">
+                                      {Object.entries(content).map(([subKey, subValue]) => (
+                                        <div
+                                          key={subKey}
+                                          className="rounded-xl border border-white/10 bg-midnight-900/60 p-4"
+                                        >
+                                          <h4 className="text-[11px] font-bold text-aurora-300 uppercase tracking-widest mb-2">
+                                            {formatFriendlyTitle(subKey)}
+                                          </h4>
+                                          <div className="text-slate-300 whitespace-pre-wrap font-mono text-[13px] leading-relaxed">
+                                            {stringifyNode(subValue)}
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  ) : (
+                                    <div className="rounded-xl border border-white/10 bg-midnight-900/60 p-4 text-slate-300 whitespace-pre-wrap font-mono text-[13px] leading-relaxed">
+                                      {stringifyNode(content)}
+                                    </div>
+                                  )}
                                 </div>
-                              ) : (
-                                <motion.div
-                                  whileHover={{ y: -2 }}
-                                  className="bg-midnight-800/50 p-5 rounded-xl border border-white/5 hover:border-aurora-500/20 transition-all duration-300"
-                                >
-                                  <div className="text-slate-300 whitespace-pre-wrap font-mono text-[13px] leading-relaxed">{stringifyNode(content)}</div>
-                                </motion.div>
-                              )}
-                            </div>
-                          </motion.article>
-                        ))}
+                              </div>
+                            </motion.article>
+                          ))}
+                        </div>
                       </div>
                     ) : (
-                      /* ── BUILD ENGINE TAB ── */
                       <div className="space-y-8">
                         {buildSections.length === 0 ? (
                           <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -679,7 +623,7 @@ function App() {
                             </motion.article>
                           ))
                         )}
-                        {/* Validation summary */}
+
                         {validation && (
                           <motion.div
                             initial={{ opacity: 0, y: 10 }}
@@ -717,3 +661,15 @@ function App() {
                         )}
                       </div>
                     )}
+                  </div>
+                </motion.section>
+              </main>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+export default App;
